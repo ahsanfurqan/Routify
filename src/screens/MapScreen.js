@@ -31,8 +31,8 @@ function MapScreen(props) {
   } else if (location) {
     lat = JSON.parse(location.coords.latitude);
     lon = JSON.parse(location.coords.longitude);
-    text = JSON.parse(location.coords.longitude);
-    console.log(typeof text);
+    // text = JSON.parse(location.coords.longitude);
+    // console.log(typeof text);
     return (
       <View style={styles.container}>
         <MapView
