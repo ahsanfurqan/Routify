@@ -15,14 +15,14 @@ export default function DestinationButton() {
   return (
     <TouchableOpacity onPress={() => {}} style={styles.container}>
       <View style={styles.leftCol}>
-        <Text style={{ fontSize: 8 }}>{"\u25A0"}</Text>
+        <Text style={{ fontSize: 8 }}>{"\u2B24"}</Text>
       </View>
       <View style={styles.centerCol}>
         <Text
           style={{
             fontFamily: "sans-serif-thin",
             fontSize: 21,
-            color: "#545454",
+            color: "#c0c0c0",
           }}
         >
           Where to go?
@@ -31,7 +31,7 @@ export default function DestinationButton() {
       <View style={styles.rightCol}>
         <Ionicons
           name="md-bus"
-          color="#000000"
+          color="#c0c0c0"
           size={25}
           style={{ alignSelf: "center" }}
         />

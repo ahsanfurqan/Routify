@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Dimensions, Platform } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, AnimatedReigon, Animated } from "react-native-maps";
 import * as Location from "expo-location";
 import DestinationButton from "./Components/DestinationButton";
+import CureentLocationButton from "./Components/CureentLocationButton";
+import { BottomTabBar } from "react-navigation-tabs";
 
 function MapScreen(props) {
   const [location, setLocation] = useState(null);
@@ -32,11 +34,14 @@ function MapScreen(props) {
   } else if (location) {
     lat = JSON.parse(location.coords.latitude);
     lon = JSON.parse(location.coords.longitude);
+
     // text = JSON.parse(location.coords.longitude);
     // console.log(typeof text);
+
     return (
       <View style={styles.container}>
         <DestinationButton />
+        <CureentLocationButton />
         <MapView
           initialRegion={{
             latitude: lat,
@@ -46,6 +51,7 @@ function MapScreen(props) {
           }}
           showsUserLocation={true}
           showsCompass={true}
+          showsMyLocationButton={false}
           style={styles.map}
         >
           <Marker
