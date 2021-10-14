@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Dimensions, Platform } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import DestinationButton from "./Components/DestinationButton";
 
 function MapScreen(props) {
   const [location, setLocation] = useState(null);
@@ -35,6 +36,7 @@ function MapScreen(props) {
     // console.log(typeof text);
     return (
       <View style={styles.container}>
+        <DestinationButton />
         <MapView
           initialRegion={{
             latitude: lat,
@@ -42,6 +44,8 @@ function MapScreen(props) {
             latitudeDelta: 0.092,
             longitudeDelta: 0.0421,
           }}
+          showsUserLocation={true}
+          showsCompass={true}
           style={styles.map}
         >
           <Marker
