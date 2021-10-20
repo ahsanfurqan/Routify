@@ -56,9 +56,14 @@ export default function MapScreen(props) {
     lat = JSON.parse(location.coords.latitude);
     lon = JSON.parse(location.coords.longitude);
     console.log(location);
+    console.log("Destination" + destination);
     const loc = {
       latitude: lat,
       longitude: lon,
+    };
+    const l = {
+      latitude: 37.771707,
+      longitude: -122.4053769,
     };
     dispatch(
       setOrigin({
@@ -87,13 +92,24 @@ export default function MapScreen(props) {
           showsMyLocationButton={true}
           style={styles.map}
         >
-          {loc && destination && (
+          {/* {loc && destination && (
             <MapViewDirections
-              origin={location.description}
+              origin={location}
               destination={destination.description}
               apikey={GOOGLE_MAPS_APIKEY}
               strokeWidth={3}
               strokeColor="black"
+            />
+          )} */}
+          {destination?.location && (
+            <Marker
+              coordinates={{
+                latitude: destination.location.latitude,
+                longitude: destination.location.longitude,
+              }}
+              title="destination"
+              description={destination.description}
+              identifier="destination"
             />
           )}
           <Marker
