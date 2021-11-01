@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Platform,
+  FlatList,
+} from "react-native";
 import MapView, { Marker, AnimatedReigon, Animated } from "react-native-maps";
 import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
 import Search from "./Components/Search";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Stop from "./Components/Stop";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -20,6 +28,68 @@ import { GOOGLE_MAPS_APIKEY } from "@env";
 import { BottomTabBar } from "react-navigation-tabs";
 
 export default function MapScreen(props) {
+  const Stops = [
+    {
+      key: "6",
+      title: "Random Bus Stop",
+      location: {
+        latitude: 24.8238729,
+        longitude: 67.13762,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "1",
+      title: "Korangi Crossing Bus Stop",
+      location: {
+        latitude: 24.817101,
+        longitude: 67.107758,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "2",
+      title: "Gulshan Chowrangi Bus Stop",
+      location: {
+        latitude: 24.9244,
+        longitude: 67.0916,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "3",
+      title: "Malir 15 Bus Stop",
+      location: {
+        latitude: 24.8789,
+        longitude: 67.1881,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "4",
+      title: "Awami Markaz Bus Stop",
+      location: {
+        latitude: 24.8707944,
+        longitude: 67.08998470000006,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "5",
+      title: "Meezan Bank Bus Stop",
+      location: {
+        latitude: 24.86034,
+        longitude: 67.06479,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+  ];
   // setting location and error message to null initially
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -89,8 +159,8 @@ export default function MapScreen(props) {
         {/* Map View component of google */}
         <MapView
           initialRegion={{
-            latitude: loc.latitude,
-            longitude: loc.longitude,
+            latitude: 24.8238729,
+            longitude: 67.13762,
             latitudeDelta: 0.092,
             longitudeDelta: 0.0421,
           }}
@@ -99,15 +169,27 @@ export default function MapScreen(props) {
           showsMyLocationButton={false}
           style={styles.map}
         >
-          {/* {loc && destination && (
-            <MapViewDirections
-              origin={location}
-              destination={destination.description}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth={3}
-              strokeColor="black"
-            />
-          )} */}
+          {/* {loc && destination && ( */}
+          <MapViewDirections
+            origin={{
+              latitude: 24.8238729,
+              longitude: 67.13762,
+            }}
+            destination={{
+              latitude: 24.8582,
+              longitude: 67.2289,
+            }}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={3}
+            strokeColor="black"
+          />
+          {/* <Marker
+            coordinate={{ latitude: 24.8238729, longitude: 67.13762 }}
+            pinColor={"red"} // any color
+            title={"You"}
+            description={"Your Current Location"}
+          /> */}
+          {/* )} */}
           {/* {destination?.location && (
             <Marker
               coordinates={{
@@ -125,15 +207,39 @@ export default function MapScreen(props) {
             title={"title"}
             description={"description"}
           /> */}
-          <Stop
+          {Stops.map((val, i) => {
+            return (
+              <Marker coordinate={val.location} title={val.title}>
+                <MaterialCommunityIcons
+                  name="bus-marker"
+                  size={24}
+                  color="black"
+                />
+              </Marker>
+            );
+          })}
+          {/* <FlatList
+            data={Stops}
+            renderItem={({ item }) => (
+              <Stop
+                stop={{
+                  key: item.key,
+                  title: item.title,
+                  location: item.location,
+                }}
+              />
+            )}
+          /> */}
+          {/* <Stop
             stop={{
-              sid: "null",
+              key: "1",
+              title: "ahsan",
               location: {
-                latitude: 24.8621,
-                longitude: 67.0807,
+                latitude: 24.8238729,
+                longitude: 67.13762,
               },
             }}
-          />
+          /> */}
         </MapView>
       </View>
     );

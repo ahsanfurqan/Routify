@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import MapView, { Marker, AnimatedReigon, Animated } from "react-native-maps";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -7,23 +7,23 @@ export default function Stop(props) {
   const stop = props.stop
     ? props.stop
     : {
-        sid: "nostops",
+        key: "nostops",
+        title: "null",
         location: { latitude: 0, longitude: 0 },
       };
 
-  const coordinate = {
-    latitude: stop.location.latitude,
-    longitude: stop.location.longitude,
-  };
+  const coordinate = stop.location;
+  console.log(coordinate);
   return (
-    <View>
-      <Marker
-        coordinate={coordinate}
-        anchor={{ x: 0.35, y: 0.32 }} //
-        style={{ width: 50, height: 50 }}
-      >
-        <MaterialCommunityIcons name="bus-marker" size={24} color="black" />
-      </Marker>
-    </View>
+    <Marker
+      coordinate={{
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+      }}
+      pinColor="red"
+      style={{ width: 50, height: 50 }}
+    >
+      {/* <MaterialCommunityIcons name="bus-marker" size={24} color="black" /> */}
+    </Marker>
   );
 }
