@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, Dimensions, Platform } from "react-native";
 import MapView, { Marker, AnimatedReigon, Animated } from "react-native-maps";
 import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
+import DestinationButton from "./Components/DestinationButton";
 import Search from "./Components/Search";
+import Stop from "./Components/Stop";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectDestination,
@@ -55,8 +57,8 @@ export default function MapScreen(props) {
   else if (location) {
     lat = JSON.parse(location.coords.latitude);
     lon = JSON.parse(location.coords.longitude);
-    console.log(location);
-    console.log("Destination" + destination);
+    // console.log(location);
+    // console.log("Destination" + destination);
     const loc = {
       latitude: lat,
       longitude: lon,
@@ -65,6 +67,11 @@ export default function MapScreen(props) {
       latitude: 37.771707,
       longitude: -122.4053769,
     };
+    // map for animating
+    // const mapView=React.createRef();
+    // const animateMap=()=>{
+
+    // }
     dispatch(
       setOrigin({
         location: loc,
@@ -77,7 +84,7 @@ export default function MapScreen(props) {
     return (
       <View style={styles.container}>
         {/* Googleautocomplete component */}
-        <Search />
+        <DestinationButton />
         <CureentLocationButton />
         {/* Map View component of google */}
         <MapView
@@ -89,7 +96,7 @@ export default function MapScreen(props) {
           }}
           showsUserLocation={true}
           showsCompass={true}
-          showsMyLocationButton={true}
+          showsMyLocationButton={false}
           style={styles.map}
         >
           {/* {loc && destination && (
@@ -101,7 +108,7 @@ export default function MapScreen(props) {
               strokeColor="black"
             />
           )} */}
-          {destination?.location && (
+          {/* {destination?.location && (
             <Marker
               coordinates={{
                 latitude: destination.location.latitude,
@@ -117,6 +124,15 @@ export default function MapScreen(props) {
             pinColor={"red"} // any color
             title={"title"}
             description={"description"}
+          /> */}
+          <Stop
+            stop={{
+              sid: "null",
+              location: {
+                latitude: 24.8621,
+                longitude: 67.0807,
+              },
+            }}
           />
         </MapView>
       </View>
