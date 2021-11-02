@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,7 @@ import {
   Platform,
   FlatList,
 } from "react-native";
-import MapView, { Marker, AnimatedReigon, Animated } from "react-native-maps";
+import MapView, { Marker, Camera, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
@@ -90,6 +90,13 @@ export default function MapScreen(props) {
       },
     },
   ];
+  // created to test gps or moving to a specific location in a map
+  const temp = {
+    latitude: 24.8238729,
+    longitude: 67.13762,
+    latitudeDelta: 0.092,
+    longitudeDelta: 0.0421,
+  };
   // setting location and error message to null initially
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -98,6 +105,13 @@ export default function MapScreen(props) {
   // const origin = useSelector(selectOrigin);
   // dispatch to send data to redux
   const dispatch = useDispatch();
+
+  // to animate map
+  const mapRef = useRef(null);
+  const centerMap = () => {
+    // console.log(mapRef);
+    mapRef.current.animateToRegion(temp);
+  };
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -112,7 +126,6 @@ export default function MapScreen(props) {
   }, []);
   var lat;
   var lon;
-  // const mapRef = React.createRef();
   let text = "Waiting..";
   // if permission is not granted
   if (errorMsg) {
@@ -137,6 +150,7 @@ export default function MapScreen(props) {
       latitude: 37.771707,
       longitude: -122.4053769,
     };
+
     // map for animating
     // const mapView=React.createRef();
     // const animateMap=()=>{
@@ -155,9 +169,14 @@ export default function MapScreen(props) {
       <View style={styles.container}>
         {/* Googleautocomplete component */}
         <DestinationButton />
-        <CureentLocationButton />
+        <CureentLocationButton
+          cb={() => {
+            centerMap();
+          }}
+        />
         {/* Map View component of google */}
         <MapView
+          ref={mapRef}
           initialRegion={{
             latitude: 24.8238729,
             longitude: 67.13762,
@@ -189,7 +208,6 @@ export default function MapScreen(props) {
             title={"You"}
             description={"Your Current Location"}
           /> */}
-          {/* )} */}
           {/* {destination?.location && (
             <Marker
               coordinates={{
