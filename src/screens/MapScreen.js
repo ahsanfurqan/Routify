@@ -14,6 +14,7 @@ import DestinationButton from "./Components/DestinationButton";
 import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import geolib from "geolib";
 import {
   selectDestination,
   selectOrigin,
@@ -39,8 +40,7 @@ export default function MapScreen(props) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   // pulling destination from redux
-  const destination = useSelector(selectDestination);
-  // const origin = useSelector(selectOrigin);
+  // const destination = useSelector(selectDestination);
   // dispatch to send data to redux
   const dispatch = useDispatch();
 
@@ -85,24 +85,22 @@ export default function MapScreen(props) {
       longitude: lon,
     };
     const l = {
-      latitude: 37.771707,
-      longitude: -122.4053769,
+      latitude: 24.8238729,
+      longitude: 67.13762,
     };
 
     // map for animating
-    // const mapView=React.createRef();
+    // const mapView=React.createRef();s
     // const animateMap=()=>{
 
     // }
-    dispatch(
-      setOrigin({
-        location: loc,
-      })
-    );
+    dispatch(setOrigin(l));
 
     // text = JSON.parse(location.coords.longitude);
     // console.log(GOOGLE_MAPS_APIKEY);
     // const selector=useSelector(selectOrigin);
+    // const origin = useSelector(selectOrigin);
+
     return (
       <View style={styles.container}>
         {/* Googleautocomplete component */}
@@ -127,7 +125,7 @@ export default function MapScreen(props) {
           style={styles.map}
         >
           {/* {loc && destination && ( */}
-          <MapViewDirections
+          {/* <MapViewDirections
             origin={{
               latitude: 24.8238729,
               longitude: 67.13762,
@@ -139,7 +137,7 @@ export default function MapScreen(props) {
             apikey={GOOGLE_MAPS_APIKEY}
             strokeWidth={3}
             strokeColor="black"
-          />
+          /> */}
           {/* <Marker
             coordinate={{ latitude: 24.8238729, longitude: 67.13762 }}
             pinColor={"red"} // any color
@@ -163,6 +161,7 @@ export default function MapScreen(props) {
             title={"title"}
             description={"description"}
           /> */}
+          <Marker coordinate={l} />
           {Stops.map((val, i) => {
             return (
               <Marker key={val.key} coordinate={val.location} title={val.title}>

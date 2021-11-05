@@ -10,12 +10,20 @@ import {
 } from "react-native";
 import { Stops } from "../../Data/stop";
 import { useSelector, useDispatch } from "react-redux";
-import { setDestination, selectDestination } from "../../slices/navSlice";
+import { useNavigation } from "@react-navigation/native";
+import { getDistance } from "geolib";
+import {
+  setDestination,
+  selectDestination,
+  selectOrigin,
+  setInitialStop,
+} from "../../slices/navSlice";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default function SearchScreen() {
+  const navigation = useNavigation();
   const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -71,11 +79,35 @@ export default function SearchScreen() {
       />
     );
   };
-  // const destination = useSelector(selectDestination);
+  const origin = useSelector(selectOrigin);
   const getItem = (item) => {
     // Function for click on an item
     dispatch(setDestination(item));
+    // console.log(coords);
+    const distance = Stops.map((busStop) => {
+      const coord = busStop.location;
+      return { coord, dist: getDistance(origin, coord) };
+    });
+    // const dist = getDistance(Stops.location, {
+    //   latitude: origin.latitude,
+    //   longitude: origin.longitude,
+    // });
+    const closest = distance.sort((a, b) => a.dist - b.dist)[0];
+    // console.log(closest.dist);
     // alert("Id : " + item.key + " Title : " + item.title);
+    // console.log(distance);
+
+    // looping through stops to get the nearest stop data
+    for (var i = 0; i < Stops.length; i++) {
+      if (
+        closest.coord.latitude == Stops[i].location.latitude &&
+        closest.coord.longitude == Stops[i].location.longitude
+      ) {
+        dispatch(setInitialStop(Stops[i]));
+      }
+    }
+    // dispatch(setInitialStop(closest));
+    navigation.navigate("BusScreen");
     // const destination = useSelector(selectDestination);
     // console.log(destination);
   };

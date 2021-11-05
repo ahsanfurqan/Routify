@@ -5,6 +5,7 @@ const initialState = {
   origin: null,
   destination: null,
   travelTimeInformation: null,
+  initialStop: null,
 };
 
 export const navSlice = createSlice({
@@ -20,11 +21,18 @@ export const navSlice = createSlice({
     setTravelTimeInformation: (state, action) => {
       state.travelTimeInformation = action.payload;
     },
+    setInitialStop: (state, action) => {
+      state.initialStop = action.payload;
+    },
   },
 });
 
-export const { setOrigin, setDestination, settravelTimeInformation } =
-  navSlice.actions;
+export const {
+  setOrigin,
+  setDestination,
+  settravelTimeInformation,
+  setInitialStop,
+} = navSlice.actions;
 
 //selectors
 
@@ -32,5 +40,6 @@ export const selectOrigin = (state) => state.nav.origin;
 export const selectDestination = (state) => state.nav.destination;
 export const selectTravelTimeInformation = (state) =>
   state.nav.travelTimeInformation;
+export const selectInitialStop = (state) => state.nav.initialStop;
 
 export default navSlice.reducer;

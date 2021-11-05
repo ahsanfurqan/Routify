@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import MapScreen from "./src/screens/MapScreen";
 import SearchScreen from "./src/screens/SearchScreen";
+import BusOptionScreen from "./src/screens/BusOptionScreen";
 import { store } from "./store";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
@@ -22,6 +23,11 @@ export default function App() {
           <stack.Screen
             name="SearchScreen"
             component={SearchScreen}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen
+            name="BusScreen"
+            component={BusOptionScreen}
             options={{ headerShown: false }}
           />
         </stack.Navigator>

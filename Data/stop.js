@@ -1,14 +1,14 @@
 export const Stops = [
-  {
-    key: "6",
-    title: "Random Bus Stop",
-    location: {
-      latitude: 24.8238729,
-      longitude: 67.13762,
-      latitudeDelta: 0.092,
-      longitudeDelta: 0.0421,
-    },
-  },
+  // {
+  //   key: "6",
+  //   title: "Random Bus Stop",
+  //   location: {
+  //     latitude: 24.8238729,
+  //     longitude: 67.13762,
+  //     latitudeDelta: 0.092,
+  //     longitudeDelta: 0.0421,
+  //   },
+  // },
   {
     key: "1",
     title: "Korangi Crossing Bus Stop",
