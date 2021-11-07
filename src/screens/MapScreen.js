@@ -130,7 +130,7 @@ export default function MapScreen(props) {
         >
           {/* {bus && destination && (
             <MapViewDirections
-              lineDashPattern={[0]}
+              lineDashPattern={[10]}
               origin={{
                 latitude: 24.8238729,
                 longitude: 67.13762,

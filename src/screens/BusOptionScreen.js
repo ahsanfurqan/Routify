@@ -134,18 +134,13 @@ export default function BusOptionScreen(props) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.headingText}>
         Following are the Buses
         {/* <Ionicons name="md-bus" size={25} style={{ alignSelf: "center" }} /> */}
       </Text>
-      <FlatList
-        data={Buses}
-        renderItem={() => {
-          ItemViewer();
-        }}
-      />
-    </SafeAreaView>
+      <FlatList data={Buses} renderItem={ItemViewer} />
+    </View>
   );
 }
 
