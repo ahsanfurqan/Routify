@@ -6,15 +6,22 @@ import {
   SafeAreaView,
   Dimensions,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import tw from "tailwind-react-native-classnames";
 import { Ionicons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
-import { selectDestination, selectInitialStop } from "../../slices/navSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectDestination,
+  selectInitialStop,
+  setSelectedBus,
+} from "../../slices/navSlice";
 import { Stops } from "../../Data/stop";
 import { Buses } from "../../Data/Buses";
 import { getDistance } from "geolib";
+import { Card, Icon } from "react-native-elements";
+// import tw from "tailwind-react-native-classnames";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height - 65;
@@ -23,6 +30,7 @@ export default function BusOptionScreen(props) {
   const navigation = useNavigation();
   const destination = useSelector(selectDestination);
   const initialstop = useSelector(selectInitialStop);
+  const dispatch = useDispatch();
   //   console.log(distance);
   //   console.log(destination);
   //   const ItemView = ({ item }) => {
@@ -67,38 +75,76 @@ export default function BusOptionScreen(props) {
         item.route[3].stop == destination.key
       ) {
         return (
-          <View style={styles.cardStyle}>
+          <Card containerStyle={styles.cardStyle}>
             <Text style={styles.busName}>{item.name}</Text>
-            <Text style={{ color: "green" }}>Number of stops</Text>
-            {distance()}
+            <View style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}>
+              <Text style={{ color: "black", flex: 1 }}>Number of stops</Text>
+              <Text style={{ color: "black" }}>
+                {getDistance(initialstop.location, destination.location)}
+                {"m"}
+              </Text>
+            </View>
+            <View style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}>
+              <Text
+                style={{
+                  textAlign: "left",
+                  color: "black",
+                  fontSize: 18,
+                  flex: 1,
+                }}
+              >
+                {initialstop.title}
+              </Text>
+              <Text
+                style={{
+                  textAlign: "right",
+                  color: "black",
+                  fontSize: 18,
+                  flex: 1,
+                }}
+              >
+                {destination.title}
+              </Text>
+            </View>
 
-            <Text style={{ textAlign: "left", color: "green", fontSize: 18 }}>
-              {initialstop.title}
-            </Text>
-            <Text style={{ textAlign: "right", color: "red", fontSize: 18 }}>
-              {destination.title}
-            </Text>
-          </View>
+            <TouchableOpacity
+              style={({ marginLeft: 15 }, tw`mt-2 p-2 `)}
+              onPress={() => {
+                alert("Id : " + item.key + " Title : " + item.name);
+                dispatch(setSelectedBus(item));
+                navigation.navigate("MapScreen");
+              }}
+            >
+              <Icon
+                style={{
+                  padding: 2,
+                  backgroundColor: "black",
+                  marginTop: 4,
+                  // width: 10,
+                }}
+                name="arrowright"
+                color="white"
+                type="antdesign"
+              />
+            </TouchableOpacity>
+          </Card>
         );
       }
     }
   };
 
-  const distance = () => {
-    return (
-      <Text style={{ color: "green" }}>
-        {getDistance(initialstop.location, destination.location)}
-        {"m"}
-      </Text>
-    );
-  };
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.headingText}>
         Following are the Buses
         {/* <Ionicons name="md-bus" size={25} style={{ alignSelf: "center" }} /> */}
       </Text>
-      <FlatList data={Buses} renderItem={ItemViewer} />
+      <FlatList
+        data={Buses}
+        renderItem={() => {
+          ItemViewer();
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -106,7 +152,6 @@ export default function BusOptionScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     paddingTop: 20,
   },
   headingText: {
@@ -116,14 +161,18 @@ const styles = StyleSheet.create({
   },
   cardStyle: {
     paddingTop: 20,
-    backgroundColor: "black",
-    height: height * 0.3,
+    backgroundColor: "white",
+    // height: height * 0.25,
+    flex: 1,
+    borderRadius: 30,
+    // flexDirection: "row",
   },
   busName: {
     textAlign: "center",
-    color: "green",
+    color: "black",
     fontSize: 18,
     fontFamily: "sans-serif",
+    paddingBottom: 10,
   },
   routes: {
     textAlign: "left",

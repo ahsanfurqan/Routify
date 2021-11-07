@@ -19,6 +19,7 @@ import {
   selectDestination,
   selectOrigin,
   setOrigin,
+  selectSelectedBus,
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "@env";
@@ -40,7 +41,10 @@ export default function MapScreen(props) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   // pulling destination from redux
-  // const destination = useSelector(selectDestination);
+  const bus = useSelector(selectSelectedBus);
+  const destination = useSelector(selectDestination);
+  // const Bus = useSelector(selectSelectedBus);
+
   // dispatch to send data to redux
   const dispatch = useDispatch();
 
@@ -124,20 +128,20 @@ export default function MapScreen(props) {
           showsMyLocationButton={false}
           style={styles.map}
         >
-          {/* {loc && destination && ( */}
-          {/* <MapViewDirections
-            origin={{
-              latitude: 24.8238729,
-              longitude: 67.13762,
-            }}
-            destination={{
-              latitude: 24.8582,
-              longitude: 67.2289,
-            }}
-            apikey={GOOGLE_MAPS_APIKEY}
-            strokeWidth={3}
-            strokeColor="black"
-          /> */}
+          {/* {bus && destination && (
+            <MapViewDirections
+              lineDashPattern={[0]}
+              origin={{
+                latitude: 24.8238729,
+                longitude: 67.13762,
+              }}
+              destination={{
+                latitude: destination.location.latitude,
+                longitude: destination.location.longitude,
+              }}
+              apikey={GOOGLE_MAPS_APIKEY}
+            />
+          )} */}
           {/* <Marker
             coordinate={{ latitude: 24.8238729, longitude: 67.13762 }}
             pinColor={"red"} // any color

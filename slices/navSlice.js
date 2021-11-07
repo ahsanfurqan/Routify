@@ -6,6 +6,7 @@ const initialState = {
   destination: null,
   travelTimeInformation: null,
   initialStop: null,
+  selectedBus: null,
 };
 
 export const navSlice = createSlice({
@@ -24,6 +25,9 @@ export const navSlice = createSlice({
     setInitialStop: (state, action) => {
       state.initialStop = action.payload;
     },
+    setSelectedBus: (state, action) => {
+      state.selectedBus = action.payload;
+    },
   },
 });
 
@@ -32,6 +36,7 @@ export const {
   setDestination,
   settravelTimeInformation,
   setInitialStop,
+  setSelectedBus,
 } = navSlice.actions;
 
 //selectors
@@ -41,5 +46,6 @@ export const selectDestination = (state) => state.nav.destination;
 export const selectTravelTimeInformation = (state) =>
   state.nav.travelTimeInformation;
 export const selectInitialStop = (state) => state.nav.initialStop;
+export const selectSelectedBus = (state) => state.nav.selectedBus;
 
 export default navSlice.reducer;
