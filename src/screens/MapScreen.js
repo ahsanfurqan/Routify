@@ -34,17 +34,6 @@ import { BottomTabBar } from "react-navigation-tabs";
 export default function MapScreen({ route, navigation }) {
   // created to test gps or moving to a specific location in a map
   const bus = route.params;
-
-  const coordinates = [
-    {
-      latitude: 48.8587741,
-      longitude: 2.2069771,
-    },
-    {
-      latitude: 48.8323785,
-      longitude: 2.3361663,
-    },
-  ];
   // const temp = {
   //   latitude: 24.8238729,
   //   longitude: 67.13762,
@@ -136,24 +125,108 @@ export default function MapScreen({ route, navigation }) {
 
     return (
       <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: coordinates[0].latitude,
-            longitude: coordinates[0].longitude,
-            latitudeDelta: 0.0622,
-            longitudeDelta: 0.0121,
+        {/* Googleautocomplete component */}
+        <DestinationButton />
+        <CureentLocationButton
+          cb={() => {
+            centerMap();
           }}
+        />
+        <TravelingCard />
+        {/* Map View component of google */}
+        <MapView
+          ref={mapRef}
+          initialRegion={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.092,
+            longitudeDelta: 0.0421,
+          }}
+          showsUserLocation={true}
+          showsCompass={true}
+          showsMyLocationButton={false}
+          style={styles.map}
         >
-          <MapViewDirections
-            origin={coordinates[0]}
-            destination={coordinates[1]}
-            apikey={GOOGLE_MAPS_APIKEY} // insert your API Key here
-            strokeWidth={4}
-            strokeColor="#111111"
-          />
-          <Marker coordinate={coordinates[0]} />
-          <Marker coordinate={coordinates[1]} />
+          {/* {bus && origin && initialStop && (
+            <MapViewDirections
+              lineDashPattern={[1]}
+              origin={{
+                latitude: origin.latitude,
+                longitude: origin.longitude,
+              }}
+              destination={{
+                // latitude: destination.location.latitude,
+                // longitude: destination.location.longitude,
+                latitude: initialStop.location.latitude,
+                longitude: initialStop.location.longitude,
+              }}
+              strokeWidth={3}
+              // strokeColor="hotpink"
+              apikey={GOOGLE_MAPS_APIKEY}
+            />
+          )}
+          {bus && origin&&(
+            <MapViewDirections
+            
+            />
+          )} */}
+          {/* <Marker
+            coordinate={{ latitude: 24.8238729, longitude: 67.13762 }}
+            pinColor={"red"} // any color
+            title={"You"}
+            description={"Your Current Location"}
+          /> */}
+          {/* {destination?.location && (
+            <Marker
+              coordinates={{
+                latitude: destination.location.latitude,
+                longitude: destination.location.longitude,
+              }}
+              title="destination"
+              description={destination.description}
+              identifier="destination"
+            />
+          )}
+          <Marker
+            coordinate={{ latitude: lat, longitude: lon }}
+            pinColor={"red"} // any color
+            title={"title"}
+            description={"description"}
+          /> */}
+          {/* <Marker coordinate={loc} /> */}
+          {Stops.map((val, i) => {
+            return (
+              <Marker key={val.key} coordinate={val.location} title={val.title}>
+                <MaterialCommunityIcons
+                  name="bus-marker"
+                  size={24}
+                  color="black"
+                />
+              </Marker>
+            );
+          })}
+          {/* <FlatList
+            data={Stops}
+            renderItem={({ item }) => (
+              <Stop
+                stop={{
+                  key: item.key,
+                  title: item.title,
+                  location: item.location,
+                }}
+              />
+            )}
+          /> */}
+          {/* <Stop
+            stop={{
+              key: "1",
+              title: "ahsan",
+              location: {
+                latitude: 24.8238729,
+                longitude: 67.13762,
+              },
+            }}
+          /> */}
         </MapView>
       </View>
     );
