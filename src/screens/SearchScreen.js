@@ -82,7 +82,7 @@ export default function SearchScreen() {
   const origin = useSelector(selectOrigin);
   const getItem = (item) => {
     // Function for click on an item
-    dispatch(setDestination(item));
+    // dispatch(setDestination(item));
     // console.log(coords);
     const distance = Stops.map((busStop) => {
       const coord = busStop.location;
@@ -93,7 +93,7 @@ export default function SearchScreen() {
     //   longitude: origin.longitude,
     // });
     const closest = distance.sort((a, b) => a.dist - b.dist)[0];
-    // console.log(closest.dist);
+    // console.log(closest);
     // alert("Id : " + item.key + " Title : " + item.title);
     // console.log(distance);
 
@@ -104,10 +104,12 @@ export default function SearchScreen() {
         closest.coord.longitude == Stops[i].location.longitude
       ) {
         dispatch(setInitialStop(Stops[i]));
+        console.log(Stops[i]);
       }
     }
     // dispatch(setInitialStop(closest));
-    navigation.navigate("BusScreen");
+    // console.log(item);
+    navigation.navigate("BusScreen", item);
     // const destination = useSelector(selectDestination);
     // console.log(destination);
   };
@@ -120,7 +122,7 @@ export default function SearchScreen() {
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
-          placeholder="Where to go?"
+          placeholder="destination bus stop.. "
         />
         <FlatList
           data={filteredDataSource}

@@ -21,14 +21,14 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <stack.Screen
-            name="SearchScreen"
+            name="Where to go?"
             component={SearchScreen}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
           />
           <stack.Screen
             name="BusScreen"
             component={BusOptionScreen}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
           />
         </stack.Navigator>
         {/* <MapScreen /> */}

@@ -10,7 +10,7 @@ export const Buses = [
         stop: "2",
       },
       3: {
-        stop: "4",
+        stop: "6",
       },
     },
   },
@@ -26,7 +26,7 @@ export const Buses = [
         stop: "3",
       },
       3: {
-        stop: "1",
+        stop: "6",
       },
     },
   },

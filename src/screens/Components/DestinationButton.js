@@ -19,7 +19,7 @@ export default function DestinationButton() {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("SearchScreen");
+        navigation.navigate("Where to go?");
       }}
       style={styles.container}
     >

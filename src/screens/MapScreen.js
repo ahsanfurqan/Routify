@@ -11,14 +11,16 @@ import MapView, { Marker, Camera, Region } from "react-native-maps";
 import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
-import Search from "./Components/Search";
+import TravelingCard from "./Components/TravelingCard";
+// import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import geolib from "geolib";
+// import geolib from "geolib";
 import {
   selectDestination,
   selectOrigin,
   setOrigin,
+  selectInitialStop,
   selectSelectedBus,
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
@@ -29,30 +31,45 @@ import { Stops } from "../../Data/stop";
 // import { Permissions, Location } from "expo";
 import { BottomTabBar } from "react-navigation-tabs";
 
-export default function MapScreen(props) {
+export default function MapScreen({ route, navigation }) {
   // created to test gps or moving to a specific location in a map
-  const temp = {
-    latitude: 24.8238729,
-    longitude: 67.13762,
-    latitudeDelta: 0.092,
-    longitudeDelta: 0.0421,
-  };
+  const bus = route.params;
+
+  const coordinates = [
+    {
+      latitude: 48.8587741,
+      longitude: 2.2069771,
+    },
+    {
+      latitude: 48.8323785,
+      longitude: 2.3361663,
+    },
+  ];
+  // const temp = {
+  //   latitude: 24.8238729,
+  //   longitude: 67.13762,
+  //   latitudeDelta: 0.092,
+  //   longitudeDelta: 0.0421,
+  // };
   // setting location and error message to null initially
   const [location, setLocation] = useState(null);
+  const [loc, setLoc] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   // pulling destination from redux
-  const bus = useSelector(selectSelectedBus);
-  const destination = useSelector(selectDestination);
+  // const bus = useSelector(selectSelectedBus);
+  // const destination = useSelector(selectDestination);
   // const Bus = useSelector(selectSelectedBus);
 
+  const origin = useSelector(selectOrigin);
+  const initialStop = useSelector(selectInitialStop);
   // dispatch to send data to redux
   const dispatch = useDispatch();
 
   // to animate map
   const mapRef = useRef(null);
   const centerMap = () => {
-    // console.log(mapRef);
-    mapRef.current.animateToRegion(temp);
+    // console.log(loc);
+    mapRef.current.animateToRegion(loc);
   };
   useEffect(() => {
     (async () => {
@@ -64,6 +81,17 @@ export default function MapScreen(props) {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      lat = JSON.parse(location.coords.latitude);
+      lon = JSON.parse(location.coords.longitude);
+      // console.log(location);
+      // console.log("Destination" + destination);
+      const dum = {
+        latitude: lat,
+        longitude: lon,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      };
+      setLoc(dum);
     })();
   }, []);
   var lat;
@@ -84,21 +112,22 @@ export default function MapScreen(props) {
     lon = JSON.parse(location.coords.longitude);
     // console.log(location);
     // console.log("Destination" + destination);
-    const loc = {
-      latitude: lat,
-      longitude: lon,
-    };
-    const l = {
-      latitude: 24.8238729,
-      longitude: 67.13762,
-    };
+    // const loc = {
+    //   latitude: lat,
+    //   longitude: lon,
+    // };
+    // setLoc(loc);
+    // const l = {
+    //   latitude: 24.8238729,
+    //   longitude: 67.13762,
+    // };
 
     // map for animating
     // const mapView=React.createRef();s
     // const animateMap=()=>{
 
     // }
-    dispatch(setOrigin(l));
+    dispatch(setOrigin(loc));
 
     // text = JSON.parse(location.coords.longitude);
     // console.log(GOOGLE_MAPS_APIKEY);
@@ -107,98 +136,24 @@ export default function MapScreen(props) {
 
     return (
       <View style={styles.container}>
-        {/* Googleautocomplete component */}
-        <DestinationButton />
-        <CureentLocationButton
-          cb={() => {
-            centerMap();
-          }}
-        />
-        {/* Map View component of google */}
         <MapView
-          ref={mapRef}
-          initialRegion={{
-            latitude: 24.8238729,
-            longitude: 67.13762,
-            latitudeDelta: 0.092,
-            longitudeDelta: 0.0421,
-          }}
-          showsUserLocation={true}
-          showsCompass={true}
-          showsMyLocationButton={false}
           style={styles.map}
+          initialRegion={{
+            latitude: coordinates[0].latitude,
+            longitude: coordinates[0].longitude,
+            latitudeDelta: 0.0622,
+            longitudeDelta: 0.0121,
+          }}
         >
-          {/* {bus && destination && (
-            <MapViewDirections
-              lineDashPattern={[10]}
-              origin={{
-                latitude: 24.8238729,
-                longitude: 67.13762,
-              }}
-              destination={{
-                latitude: destination.location.latitude,
-                longitude: destination.location.longitude,
-              }}
-              apikey={GOOGLE_MAPS_APIKEY}
-            />
-          )} */}
-          {/* <Marker
-            coordinate={{ latitude: 24.8238729, longitude: 67.13762 }}
-            pinColor={"red"} // any color
-            title={"You"}
-            description={"Your Current Location"}
-          /> */}
-          {/* {destination?.location && (
-            <Marker
-              coordinates={{
-                latitude: destination.location.latitude,
-                longitude: destination.location.longitude,
-              }}
-              title="destination"
-              description={destination.description}
-              identifier="destination"
-            />
-          )}
-          <Marker
-            coordinate={{ latitude: lat, longitude: lon }}
-            pinColor={"red"} // any color
-            title={"title"}
-            description={"description"}
-          /> */}
-          <Marker coordinate={l} />
-          {Stops.map((val, i) => {
-            return (
-              <Marker key={val.key} coordinate={val.location} title={val.title}>
-                <MaterialCommunityIcons
-                  name="bus-marker"
-                  size={24}
-                  color="black"
-                />
-              </Marker>
-            );
-          })}
-          {/* <FlatList
-            data={Stops}
-            renderItem={({ item }) => (
-              <Stop
-                stop={{
-                  key: item.key,
-                  title: item.title,
-                  location: item.location,
-                }}
-              />
-            )}
-          /> */}
-          {/* <Stop
-            stop={{
-              key: "1",
-              title: "ahsan",
-              location: {
-                latitude: 24.8238729,
-                longitude: 67.13762,
-              },
-            }}
-          /> */}
+          <MapViewDirections
+            origin={coordinates[0]}
+            destination={coordinates[1]}
+            apikey={GOOGLE_MAPS_APIKEY} // insert your API Key here
+            strokeWidth={4}
+            strokeColor="#111111"
+          />
+          <Marker coordinate={coordinates[0]} />
+          <Marker coordinate={coordinates[1]} />
         </MapView>
       </View>
     );

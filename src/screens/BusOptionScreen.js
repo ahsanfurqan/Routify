@@ -17,18 +17,18 @@ import {
   selectInitialStop,
   setSelectedBus,
 } from "../../slices/navSlice";
-import { Stops } from "../../Data/stop";
+// import { Stops } from "../../Data/stop";
 import { Buses } from "../../Data/Buses";
 import { getDistance } from "geolib";
 import { Card, Icon } from "react-native-elements";
-// import tw from "tailwind-react-native-classnames";
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height - 65;
+// const width = Dimensions.get("window").width;
+// const height = Dimensions.get("window").height - 65;
 
-export default function BusOptionScreen(props) {
-  const navigation = useNavigation();
-  const destination = useSelector(selectDestination);
+export default function BusOptionScreen({ route, navigation }) {
+  const nav = useNavigation();
+  const destination = route.params;
+  // const destination = useSelector(selectDestination);
   const initialstop = useSelector(selectInitialStop);
   const dispatch = useDispatch();
   //   console.log(distance);
@@ -64,6 +64,7 @@ export default function BusOptionScreen(props) {
   //   });
 
   const ItemViewer = ({ item }) => {
+    // console.log(route.params.key);
     if (
       item.route[1].stop == initialstop.key ||
       item.route[2].stop == initialstop.key ||
@@ -110,9 +111,9 @@ export default function BusOptionScreen(props) {
             <TouchableOpacity
               style={({ marginLeft: 15 }, tw`mt-2 p-2 `)}
               onPress={() => {
-                alert("Id : " + item.key + " Title : " + item.name);
-                dispatch(setSelectedBus(item));
-                navigation.navigate("MapScreen");
+                // alert("Id : " + item.key + " Title : " + item.name);
+                // dispatch(setSelectedBus(item));
+                navigation.navigate("MapScreen", item);
               }}
             >
               <Icon

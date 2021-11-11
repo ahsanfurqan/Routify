@@ -59,4 +59,14 @@ export const Stops = [
       longitudeDelta: 0.0421,
     },
   },
+  {
+    key: "6",
+    title: "Star Gate Bus Stop",
+    location: {
+      latitude: 24.88691,
+      longitude: 67.15382,
+      latitudeDelta: 0.092,
+      longitudeDelta: 0.0421,
+    },
+  },
 ];
