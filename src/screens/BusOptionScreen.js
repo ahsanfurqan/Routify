@@ -16,6 +16,7 @@ import {
   selectDestination,
   selectInitialStop,
   setSelectedBus,
+  setDestination,
 } from "../../slices/navSlice";
 // import { Stops } from "../../Data/stop";
 import { Buses } from "../../Data/Buses";
@@ -31,6 +32,7 @@ export default function BusOptionScreen({ route, navigation }) {
   // const destination = useSelector(selectDestination);
   const initialstop = useSelector(selectInitialStop);
   const dispatch = useDispatch();
+  // dispatch(setDestination(destination));
   //   console.log(distance);
   //   console.log(destination);
   //   const ItemView = ({ item }) => {
@@ -113,7 +115,7 @@ export default function BusOptionScreen({ route, navigation }) {
               onPress={() => {
                 // alert("Id : " + item.key + " Title : " + item.name);
                 // dispatch(setSelectedBus(item));
-                navigation.navigate("MapScreen", item);
+                navigation.navigate("MapScreen", [item, destination]);
               }}
             >
               <Icon

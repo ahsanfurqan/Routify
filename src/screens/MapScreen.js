@@ -7,7 +7,7 @@ import {
   Platform,
   FlatList,
 } from "react-native";
-import MapView, { Marker, Camera, Region } from "react-native-maps";
+import MapView, { Marker, Camera, Region, Polygon } from "react-native-maps";
 import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
@@ -33,7 +33,12 @@ import { BottomTabBar } from "react-navigation-tabs";
 
 export default function MapScreen({ route, navigation }) {
   // created to test gps or moving to a specific location in a map
+
+  // getting data from the navigation
+
   const bus = route.params;
+
+  // const destination = route.params[1];
   // const temp = {
   //   latitude: 24.8238729,
   //   longitude: 67.13762,
@@ -50,6 +55,7 @@ export default function MapScreen({ route, navigation }) {
   // const Bus = useSelector(selectSelectedBus);
 
   const origin = useSelector(selectOrigin);
+  // const destination = useSelector(selectDestination);
   const initialStop = useSelector(selectInitialStop);
   // dispatch to send data to redux
   const dispatch = useDispatch();
@@ -126,13 +132,21 @@ export default function MapScreen({ route, navigation }) {
     return (
       <View style={styles.container}>
         {/* Googleautocomplete component */}
-        <DestinationButton />
-        <CureentLocationButton
-          cb={() => {
-            centerMap();
-          }}
-        />
-        <TravelingCard />
+
+        {bus == null && <DestinationButton />}
+
+        {bus == null && (
+          <CureentLocationButton
+            cb={() => {
+              centerMap();
+            }}
+          />
+        )}
+
+        {/* the card which will show details */}
+        {bus && origin && initialStop && (
+          <TravelingCard from={initialStop.title} to={bus[1].title} />
+        )}
         {/* Map View component of google */}
         <MapView
           ref={mapRef}
@@ -147,9 +161,9 @@ export default function MapScreen({ route, navigation }) {
           showsMyLocationButton={false}
           style={styles.map}
         >
-          {/* {bus && origin && initialStop && (
+          {bus && origin && initialStop && (
             <MapViewDirections
-              lineDashPattern={[1]}
+              lineDashPattern={[0]}
               origin={{
                 latitude: origin.latitude,
                 longitude: origin.longitude,
@@ -160,12 +174,30 @@ export default function MapScreen({ route, navigation }) {
                 latitude: initialStop.location.latitude,
                 longitude: initialStop.location.longitude,
               }}
-              strokeWidth={3}
+              strokeWidth={2}
               // strokeColor="hotpink"
               apikey={GOOGLE_MAPS_APIKEY}
             />
           )}
-          {bus && origin&&(
+          {bus && initialStop && (
+            <MapViewDirections
+              lineDashPattern={[0]}
+              origin={{
+                latitude: initialStop.location.latitude,
+                longitude: initialStop.location.longitude,
+              }}
+              destination={{
+                // latitude: destination.location.latitude,
+                // longitude: destination.location.longitude,
+                latitude: bus[1].location.latitude,
+                longitude: bus[1].location.longitude,
+              }}
+              strokeWidth={2}
+              strokeColor="red"
+              apikey={GOOGLE_MAPS_APIKEY}
+            />
+          )}
+          {/* {bus && origin&&(
             <MapViewDirections
             
             />

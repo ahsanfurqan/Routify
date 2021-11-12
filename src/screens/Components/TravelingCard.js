@@ -6,7 +6,8 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-export default function TravelingCard() {
+export default function TravelingCard(props) {
+  const stops = props.stop ? props.stop : 1;
   return (
     <View style={styles.container}>
       {/* <MaterialIcons name="cancel" color="black" size={24} /> */}
@@ -25,7 +26,7 @@ export default function TravelingCard() {
           <Text
             style={{ color: "green", textAlign: "left", flex: 1, fontSize: 18 }}
           >
-            From your place
+            {props.from}
           </Text>
           <MaterialCommunityIcons
             name="arrow-left-right-bold"
@@ -34,15 +35,17 @@ export default function TravelingCard() {
             style={{ alignSelf: "center" }}
           />
           <Text
-            style={{
-              color: "orange",
-              textAlign: "right",
-              flex: 1,
-              fontSize: 18,
-              left: 10,
-            }}
+            style={[
+              {
+                textAlign: "right",
+                flex: 1,
+                fontSize: 18,
+                left: 10,
+              },
+              stops == 1 ? { color: "red" } : { color: "orange" },
+            ]}
           >
-            To this place
+            {props.to}
           </Text>
         </View>
         <View style={styles.textContainer}>
@@ -54,7 +57,7 @@ export default function TravelingCard() {
               fontSize: 16,
             }}
           >
-            Your stop is number of stops ahead
+            Your stop is {stops} stops ahead
           </Text>
         </View>
       </Card>

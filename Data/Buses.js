@@ -23,10 +23,25 @@ export const Buses = [
         stop: "4",
       },
       2: {
-        stop: "3",
+        stop: "5",
       },
       3: {
+        stop: "3",
+      },
+    },
+  },
+  {
+    key: "3",
+    name: "w13",
+    route: {
+      1: {
         stop: "6",
+      },
+      2: {
+        stop: "5",
+      },
+      3: {
+        stop: "4",
       },
     },
   },
