@@ -226,17 +226,40 @@ export default function MapScreen({ route, navigation }) {
             description={"description"}
           /> */}
           {/* <Marker coordinate={loc} /> */}
-          {Stops.map((val, i) => {
-            return (
-              <Marker key={val.key} coordinate={val.location} title={val.title}>
-                <MaterialCommunityIcons
-                  name="bus-marker"
-                  size={24}
-                  color="black"
-                />
-              </Marker>
-            );
-          })}
+          {bus == null &&
+            Stops.map((val, i) => {
+              return (
+                <Marker
+                  key={val.key}
+                  coordinate={val.location}
+                  title={val.title}
+                >
+                  <MaterialCommunityIcons
+                    name="bus-marker"
+                    size={24}
+                    color="black"
+                  />
+                </Marker>
+              );
+            })}
+          {bus && (
+            <Marker coordinate={initialStop.location}>
+              <MaterialCommunityIcons
+                name="bus-marker"
+                size={24}
+                color="black"
+              />
+            </Marker>
+          )}
+          {bus && (
+            <Marker coordinate={bus[1].location}>
+              <MaterialCommunityIcons
+                name="bus-marker"
+                size={24}
+                color="black"
+              />
+            </Marker>
+          )}
           {/* <FlatList
             data={Stops}
             renderItem={({ item }) => (
