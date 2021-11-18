@@ -69,4 +69,47 @@ export const Stops = [
       longitudeDelta: 0.0421,
     },
   },
+  {
+      key: "7",
+      title: "Faisal Contonment",
+      location: {
+        latitude: 24.88173,
+        longitude: 67.11166,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "8",
+      title: "Block 5 C Nazimabad Karachi",
+      location: {
+        latitude: 24.91069 ,
+        longitude:67.0311,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "9",
+      title: "Johar Hill Rd, Gulistan-e-Johar ",
+      location: {
+        latitude: 24.92042,
+        longitude:67.13438,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    {
+      key: "10",
+      title: "Bin Qasim Town Karachi",
+      location: {
+        latitude: 24.88225,
+        longitude: 67.35644,
+        latitudeDelta: 0.092,
+        longitudeDelta: 0.0421,
+      },
+    },
+    
 ];
+
+
