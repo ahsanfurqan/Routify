@@ -138,10 +138,6 @@ export default function BusOptionScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>
-        Following are the Buses
-        {/* <Ionicons name="md-bus" size={25} style={{ alignSelf: "center" }} /> */}
-      </Text>
       <FlatList data={Buses} renderItem={ItemViewer} />
     </View>
   );
