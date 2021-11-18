@@ -104,7 +104,7 @@ export default function SearchScreen() {
         closest.coord.longitude == Stops[i].location.longitude
       ) {
         dispatch(setInitialStop(Stops[i]));
-        console.log(Stops[i]);
+        // console.log(Stops[i]);
       }
     }
     // dispatch(setInitialStop(closest));
