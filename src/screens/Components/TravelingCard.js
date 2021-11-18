@@ -1,9 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { Card, Icon } from "react-native-elements";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+// import { TouchableOpacity } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -14,7 +20,7 @@ export default function TravelingCard(props) {
   return (
     <View style={styles.container}>
       {/* <MaterialIcons name="cancel" color="black" size={24} /> */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.button}
         onPress={() => {
           console.log("clicked");
@@ -23,8 +29,17 @@ export default function TravelingCard(props) {
         // style={styles.button}
       >
         <MaterialIcons name="cancel" color="black" size={24} />
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        style={{ flexDirection: "row-reverse" }}
+        onPress={() => {
+          console.log("clicked");
+          navigation.navigate("MapScreen");
+        }}
+      >
+        <MaterialIcons name="cancel" color="black" size={24} />
       </TouchableOpacity>
-      {/* <Card containerStyle={styles.Cardcontainer}>
+      <Card containerStyle={styles.Cardcontainer}>
         <Text style={{ color: "black", paddingTop: 10 }}> Trip Details </Text>
         <View style={styles.textContainer}>
           <Text
@@ -64,7 +79,7 @@ export default function TravelingCard(props) {
             Your stop is {stops} stops ahead
           </Text>
         </View>
-      </Card> */}
+      </Card>
     </View>
   );
 }
@@ -75,7 +90,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     // flexDirection: "row",
-    width: width - 20,
+    width: width,
     height: height * 0.25,
     // top: 80,
     // left: 20,
@@ -90,19 +105,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 1.0,
   },
   container: {
+    flex: 1,
     zIndex: 9,
     position: "absolute",
-    width: 45,
-    height: 45,
+    // width: 45,
+    // height: 45,
     backgroundColor: "#fff",
-    left: width - 70,
-    // borderRadius: 50,
-    shadowColor: "#000000",
-    elevation: 7,
-    shadowRadius: 5,
-    shadowOpacity: 1.0,
-    justifyContent: "space-around",
-    alignItems: "center",
+    // left: width - 100,
+    left: 0,
+    // right: width * 0.9,
+    top: height * 0.65,
+    borderRadius: 40,
   },
   textContainer: {
     // flex: 1,
