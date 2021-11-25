@@ -10,7 +10,7 @@ router.post("/insert/stop", async (req, res) => {
   try {
     const user = new stop({ key, title, location });
     await user.save();
-    res.send("hello");
+    res.status(200).send(JSON.stringify("Success"));
   } catch (err) {
     res.status(422).send(err.message);
   }

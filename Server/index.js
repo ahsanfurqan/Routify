@@ -11,8 +11,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(routes);
 
-mongoose.connect(mongoUrl);
-
+mongoose.connect(mongoUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+// mongoose.set("useNewUrlParser", true);
+// mongoose.set("useFindAndModify", false);
+// mongoose.set("useCreateIndex", true);
 mongoose.connection.on("connected", () => {
   console.log("Database COnnected");
 });
@@ -23,6 +28,6 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "192.168.43.52", () => {
   console.log("server is running");
 });

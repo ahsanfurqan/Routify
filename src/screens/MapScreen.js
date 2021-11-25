@@ -99,7 +99,7 @@ export default function MapScreen({ route, navigation }) {
     text = errorMsg;
     return (
       <View style={styles.container}>
-        <LoadingScreen />
+        <Text>{text}</Text>
       </View>
     );
   }
