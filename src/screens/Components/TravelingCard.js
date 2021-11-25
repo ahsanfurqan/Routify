@@ -30,17 +30,21 @@ export default function TravelingCard(props) {
       >
         <MaterialIcons name="cancel" color="black" size={24} />
       </TouchableOpacity> */}
-      <TouchableOpacity
-        style={{ flexDirection: "row-reverse" }}
-        onPress={() => {
-          console.log("clicked");
-          navigation.navigate("MapScreen");
-        }}
-      >
-        <MaterialIcons name="cancel" color="black" size={24} />
-      </TouchableOpacity>
+
       <Card containerStyle={styles.Cardcontainer}>
-        <Text style={{ color: "black", paddingTop: 10 }}> Trip Details </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            console.log("clicked");
+            navigation.navigate("MapScreen");
+          }}
+        >
+          <MaterialIcons name="cancel" color="black" size={24} />
+        </TouchableOpacity>
+        <Text style={{ color: "black", paddingTop: 10, zIndex: 9 }}>
+          {" "}
+          Trip Details{" "}
+        </Text>
         <View style={styles.textContainer}>
           <Text
             style={{ color: "green", textAlign: "left", flex: 1, fontSize: 18 }}
@@ -86,22 +90,23 @@ export default function TravelingCard(props) {
 
 const styles = StyleSheet.create({
   Cardcontainer: {
-    // zIndex: 9,
+    // zIndex: -1,
     flex: 1,
-    position: "absolute",
+    // position: "absolute",
     // flexDirection: "row",
-    width: width,
+    width: width - 20,
     height: height * 0.25,
     // top: 80,
-    // left: 20,
+    // left: 5,
+    right: width * 0.00001,
     borderRadius: 30,
     borderColor: "black",
     borderWidth: 2,
     backgroundColor: "white",
     // alignItems: "center",
     shadowColor: "#000000",
-    elevation: 7,
-    shadowRadius: 5,
+    // elevation: 7,
+    // shadowRadius: 5,
     shadowOpacity: 1.0,
   },
   container: {
@@ -110,9 +115,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     // width: 45,
     // height: 45,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     // left: width - 100,
-    left: 0,
+    // left: 0,
     // right: width * 0.9,
     top: height * 0.65,
     borderRadius: 40,
@@ -124,15 +129,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   button: {
-    zIndex: 9,
-    backgroundColor: "#fff",
+    // zIndex: 9,
+    // backgroundColor: "#fff",
     // left: width * 0.8,
-    borderRadius: 50,
-    shadowColor: "#000000",
-    elevation: 7,
-    shadowRadius: 5,
-    shadowOpacity: 1.0,
-    justifyContent: "space-around",
+    // borderRadius: 50,
+    // shadowColor: "#000000",
+    // elevation: 7,
+    // shadowRadius: 5,
+    // shadowOpacity: 1.0,
+    // justifyContent: "space-around",
     // alignItems: "center",
     // position: "absolute",
     // width: width * 0.1,

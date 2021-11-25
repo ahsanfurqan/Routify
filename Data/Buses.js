@@ -2,47 +2,47 @@ export const Buses = [
   {
     key: "1",
     name: "w11",
-    route: {
-      1: {
-        stop: "1",
+    route: [
+      {
+        stop: "9",
       },
-      2: {
+      {
+        stop: "5",
+      },
+      {
         stop: "2",
       },
-      3: {
-        stop: "6",
-      },
-    },
+    ],
   },
 
   {
     key: "2",
     name: "w12",
-    route: {
-      1: {
+    route: [
+      {
         stop: "4",
       },
-      2: {
+      {
         stop: "5",
       },
-      3: {
-        stop: "3",
+      {
+        stop: "1",
       },
-    },
+    ],
   },
   {
     key: "3",
     name: "w13",
-    route: {
-      1: {
-        stop: "6",
+    route: [
+      {
+        stop: "9",
       },
-      2: {
+      {
         stop: "5",
       },
-      3: {
+      {
         stop: "4",
       },
-    },
+    ],
   },
 ];
