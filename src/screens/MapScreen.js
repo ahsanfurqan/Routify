@@ -12,6 +12,7 @@ import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
 import TravelingCard from "./Components/TravelingCard";
+import LoadingScreen from "./LoadingScreen";
 // import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -98,7 +99,7 @@ export default function MapScreen({ route, navigation }) {
     text = errorMsg;
     return (
       <View style={styles.container}>
-        <Text>{text}</Text>
+        <LoadingScreen />
       </View>
     );
   }

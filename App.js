@@ -8,6 +8,7 @@ import { store } from "./store";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+// import LoadingScreen from "./src/screens/LoadingScreen";
 
 export default function App() {
   const stack = createStackNavigator();
@@ -34,5 +35,6 @@ export default function App() {
         {/* <MapScreen /> */}
       </NavigationContainer>
     </Provider>
+    // <LoadingScreen />
   );
 }
