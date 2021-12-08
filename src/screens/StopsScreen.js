@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -23,6 +23,7 @@ export default function StopsScreen() {
   const [name, setname] = useState("");
   const [latitude, setlatitude] = useState("");
   const [longitude, setlongitude] = useState("");
+
   const sendData = () => {
     console.log(host);
         fetch("http://"+host+":3000/insert/stop", {
@@ -33,8 +34,8 @@ export default function StopsScreen() {
       body: JSON.stringify({
         title: name,
         location: {
-          latitude: latitude,
-          longitude: longitude,
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
           latitudeDelta: 0.092,
           longitudeDelta: 0.0421,
         },
@@ -51,7 +52,11 @@ export default function StopsScreen() {
       })
       .catch((error) => console.error(error.message));
   };
-  
+  const clearData = ()=>{
+    setname('');
+    setlatitude('');
+    setlongitude('');
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -97,6 +102,16 @@ export default function StopsScreen() {
             >
               <Text style={styles.appButtonText}>Submit</Text>
             </TouchableOpacity>
+            
+          </View>
+          <View style={{ paddingTop: 20 }}>
+            <TouchableOpacity
+              style={styles.appButtonContainer}
+              onPress={() => clearData()}
+            >
+              <Text style={styles.appButtonText}>Clear</Text>
+            </TouchableOpacity>
+            
           </View>
           {/* </View> */}
 
@@ -175,7 +190,7 @@ const styles = StyleSheet.create({
     left: 10,
   },
   footer: {
-    flex: 5,
+    flex: 7,
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
