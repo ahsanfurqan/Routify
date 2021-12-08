@@ -14,12 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 const width = Dimensions.get("window").width;
 // const width = Dimensions.get("window").height;
 
-export default function DestinationButton() {
+export default function DestinationButton(props) {
   const navigation = useNavigation();
+  
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("Where to go?");
+        // console.log(props.stops);
+        navigation.navigate("Where to go?",props.stops);
       }}
       style={styles.container}
     >

@@ -14,22 +14,23 @@ import {
   Alert,
 } from "react-native";
 import { Card, Icon } from "react-native-elements";
+import{host} from "@env";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default function StopsScreen() {
+  const [stop, setstop] = useState([]);
   const [name, setname] = useState("");
   const [latitude, setlatitude] = useState("");
   const [longitude, setlongitude] = useState("");
   const sendData = () => {
-    console.log(name);
-    fetch("http://192.168.43.52:3000/insert/stop", {
+    console.log(host);
+        fetch("http://"+host+":3000/insert/stop", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        key: 10009,
         title: name,
         location: {
           latitude: latitude,
@@ -42,10 +43,15 @@ export default function StopsScreen() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if (data=="Success")
         Alert.alert(data, "data inserted");
+        else{
+          Alert.alert("Error", data);
+        }
       })
       .catch((error) => console.error(error.message));
   };
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -53,7 +59,7 @@ export default function StopsScreen() {
           style={{
             fontSize: 30,
             fontWeight: "bold",
-            fontFamily: "roboto",
+            // fontFamily: "roboto",
             color: "white",
           }}
         >

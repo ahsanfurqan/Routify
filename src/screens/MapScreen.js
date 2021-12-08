@@ -25,9 +25,9 @@ import {
   selectSelectedBus,
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
-import { GOOGLE_MAPS_APIKEY } from "@env";
+import { GOOGLE_MAPS_APIKEY,host } from "@env";
 import { MAP_BOX_TOKEN } from "@env";
-import { Stops } from "../../Data/stop";
+// import { Stops } from "../../Data/stop";
 
 // import Driver from "./Components/Driver";
 // import { Permissions, Location } from "expo";
@@ -37,6 +37,8 @@ export default function MapScreen({ route, navigation }) {
   // created to test gps or moving to a specific location in a map
 
   // getting data from the navigation
+  var stop=[];
+  const [Stops, setstop] = useState([]);
 
   const bus = route.params;
 
@@ -68,6 +70,12 @@ export default function MapScreen({ route, navigation }) {
     // console.log(loc);
     mapRef.current.animateToRegion(loc);
   };
+  // useEffect(()=>{
+  //   (async()=>{
+  //     let res= await fetch("http://192.168.18.241:3000/getAllStops");
+  //     stop= JSON.stringify(res);
+  //   })
+  // },)
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -89,6 +97,12 @@ export default function MapScreen({ route, navigation }) {
         longitudeDelta: 0.0421,
       };
       setLoc(dum);
+      await fetch("http://"+host+":3000/getAllStops")
+    .then(data=>data.json())
+    .then(ans=>{
+      // console.log(ans)
+      setstop(ans);
+    })
     })();
   }, []);
   var lat;
@@ -125,6 +139,7 @@ export default function MapScreen({ route, navigation }) {
 
     // }
     dispatch(setOrigin(loc));
+    // console.log(stop)
 
     // text = JSON.parse(location.coords.longitude);
     // console.log(GOOGLE_MAPS_APIKEY);
@@ -135,7 +150,7 @@ export default function MapScreen({ route, navigation }) {
       <View style={styles.container}>
         {/* Googleautocomplete component */}
 
-        {bus == null && <DestinationButton />}
+        {bus == null && <DestinationButton stops={Stops} />}
 
         {bus == null && (
           <CureentLocationButton

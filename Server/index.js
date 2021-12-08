@@ -3,7 +3,7 @@ require("./Models/Stops");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const { mongoUrl, url } = require("./Keys");
+const { mongoUrl, host } = require("./Keys");
 const routes = require("./routes/Data_routes");
 const PORT = 3000;
 const app = express();
@@ -28,6 +28,6 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
-app.listen(PORT, "192.168.43.52", () => {
+app.listen(PORT,host, () => {
   console.log("server is running");
 });
