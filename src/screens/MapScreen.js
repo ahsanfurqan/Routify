@@ -27,7 +27,7 @@ import {
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY,host } from "@env";
 import { MAP_BOX_TOKEN } from "@env";
-// import { Stops } from "../../Data/stop";
+import { Stops } from "../../Data/stop";
 
 // import Driver from "./Components/Driver";
 // import { Permissions, Location } from "expo";
@@ -38,7 +38,7 @@ export default function MapScreen({ route, navigation }) {
 
   // getting data from the navigation
   var stop=[];
-  const [Stops, setstop] = useState([]);
+  // const [Stops, setstop] = useState([]);
 
   const bus = route.params;
 
@@ -97,12 +97,12 @@ export default function MapScreen({ route, navigation }) {
         longitudeDelta: 0.0421,
       };
       setLoc(dum);
-      await fetch("http://"+host+":3000/getAllStops")
-    .then(data=>data.json())
-    .then(ans=>{
-      // console.log(ans)
-      setstop(ans);
-    })
+    //   await fetch("http://"+host+":3000/getAllStops")
+    // .then(data=>data.json())
+    // .then(ans=>{
+    //   // console.log(ans)
+    //   setstop(ans);
+    // })
     })();
   }, []);
   var lat;

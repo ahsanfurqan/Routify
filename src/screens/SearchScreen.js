@@ -8,7 +8,7 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
-// import { Stops } from "../../Data/stop";
+import { Stops } from "../../Data/stop";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { getDistance } from "geolib";
@@ -26,7 +26,7 @@ const height = Dimensions.get("window").height;
 export default function SearchScreen({ route, navigation }) {
   // const navigation = useNavigation();
   const [search, setSearch] = useState("");
-  const Stops=route.params;
+  // const Stops=route.params;
   // console.log(route.param)
   // const [Stops, setstop] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -87,7 +87,7 @@ export default function SearchScreen({ route, navigation }) {
   const getItem = (item) => {
     // Function for click on an item
     // dispatch(setDestination(item));
-    console.log(Stops);
+    // console.log(Stops);
     const distance = Stops.map((busStop) => {
       const coord = busStop.location;
       return { coord, dist: getDistance(origin, coord) };

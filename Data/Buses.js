@@ -4,13 +4,13 @@ export const Buses = [
     name: "w11",
     route: [
       {
-        stop: "9",
+        stop: "4",
       },
       {
         stop: "5",
       },
       {
-        stop: "2",
+        stop: "6",
       },
     ],
   },
@@ -23,7 +23,7 @@ export const Buses = [
         stop: "4",
       },
       {
-        stop: "5",
+        stop: "6",
       },
       {
         stop: "1",

@@ -19,13 +19,16 @@ import{host} from "@env";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 export default function StopsScreen() {
-  const [stop, setstop] = useState([]);
   const [name, setname] = useState("");
   const [latitude, setlatitude] = useState("");
   const [longitude, setlongitude] = useState("");
 
   const sendData = () => {
-    console.log(host);
+    // console.log(host);
+    if(name==""||latitude==""||longitude==""){
+      Alert.alert("Error","Fields can't be empty");
+    }
+    else{
         fetch("http://"+host+":3000/insert/stop", {
       method: "POST",
       headers: {
@@ -51,6 +54,7 @@ export default function StopsScreen() {
         }
       })
       .catch((error) => console.error(error.message));
+    }
   };
   const clearData = ()=>{
     setname('');
