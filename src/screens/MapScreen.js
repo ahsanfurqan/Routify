@@ -1,5 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import {
+  Animated,
+  Image,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -16,6 +19,11 @@ import LoadingScreen from "./LoadingScreen";
 // import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+const width = Dimensions.get("window").width;
+const CARD_WIDTH = width * 0.8;
+const CARD_HEIGHT = 220;
+const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
+import { Buses } from "../../Data/Buses";
 // import geolib from "geolib";
 import {
   selectDestination,
@@ -25,19 +33,20 @@ import {
   selectSelectedBus,
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
-import { GOOGLE_MAPS_APIKEY,host } from "@env";
+import { GOOGLE_MAPS_APIKEY, host } from "@env";
 import { MAP_BOX_TOKEN } from "@env";
 import { Stops } from "../../Data/stop";
 
 // import Driver from "./Components/Driver";
 // import { Permissions, Location } from "expo";
 import { BottomTabBar } from "react-navigation-tabs";
+import { Button } from "react-native-elements/dist/buttons/Button";
 
 export default function MapScreen({ route, navigation }) {
   // created to test gps or moving to a specific location in a map
 
   // getting data from the navigation
-  var stop=[];
+  var stop = [];
   // const [Stops, setstop] = useState([]);
 
   const bus = route.params;
@@ -97,12 +106,12 @@ export default function MapScreen({ route, navigation }) {
         longitudeDelta: 0.0421,
       };
       setLoc(dum);
-    //   await fetch("http://"+host+":3000/getAllStops")
-    // .then(data=>data.json())
-    // .then(ans=>{
-    //   // console.log(ans)
-    //   setstop(ans);
-    // })
+      //   await fetch("http://"+host+":3000/getAllStops")
+      // .then(data=>data.json())
+      // .then(ans=>{
+      //   // console.log(ans)
+      //   setstop(ans);
+      // })
     })();
   }, []);
   var lat;
@@ -159,7 +168,28 @@ export default function MapScreen({ route, navigation }) {
             }}
           />
         )}
-
+        {/* <Animated.ScrollView
+          horizontal
+          scrollEventThrottle={1}
+          showsHorizontalScrollIndicator={false}
+          style={styles.scrollView}
+        >
+          {Buses.map((bus, index) => {
+            console.log(bus.name);
+            <View style={styles.card} key={index}>
+              <Image
+                source={{ uri: "bus_image.jpg" }}
+                style={styles.cardImage}
+                resizeMode="cover"
+              />
+              <View>
+                <Text numberOfLines={1} style={styles.cardTitle}>
+                  {bus.name}
+                </Text>
+              </View>
+            </View>;
+          })}
+        </Animated.ScrollView> */}
         {/* the card which will show details */}
         {bus && origin && initialStop && (
           <TravelingCard from={initialStop.title} to={bus[1].title} />
@@ -277,6 +307,7 @@ export default function MapScreen({ route, navigation }) {
               />
             </Marker>
           )}
+
           {/* <FlatList
             data={Stops}
             renderItem={({ item }) => (
@@ -300,6 +331,30 @@ export default function MapScreen({ route, navigation }) {
             }}
           /> */}
         </MapView>
+        <ScrollView
+          horizontal={true}
+          scrollEventThrottle={1}
+          showsHorizontalScrollIndicator={false}
+          style={styles.scrollView}
+        >
+          <Button>Click me</Button>
+          {Buses.map((bus, index) => {
+            console.log(bus.name);
+            <View style={styles.card} key={index}>
+              <Image
+                source={{ uri: "bus_image.jpg" }}
+                style={styles.cardImage}
+                resizeMode="cover"
+              />
+              <View>
+                <Text numberOfLines={1} style={styles.cardTitle}>
+                  {bus.name}
+                </Text>
+              </View>
+            </View>;
+          })}
+        </ScrollView>
+        {/* <Animated.scrollView vertical={true}></Animated.scrollView> */}
       </View>
     );
   }
@@ -314,11 +369,75 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  scrollView: {
+    // zIndex: 11,
+    flex: 1,
+    zIndex: 9,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingVertical: 10,
+  },
+  endPadding: {
+    paddingRight: width - CARD_WIDTH,
+  },
+  card: {
+    flex: 1,
+    // position: "absolute",
+    // flexDirection: "row",
+    width: width - 20,
+    height: Dimensions.get("window").height * 0.25,
+    // top: 80,
+    // left: 5,
+    right: width * 0.00001,
+    borderRadius: 30,
+    borderColor: "black",
+    borderWidth: 2,
+    backgroundColor: "white",
+    // alignItems: "center",
+    shadowColor: "#000000",
+    // elevation: 7,
+    // shadowRadius: 5,
+    shadowOpacity: 1.0,
+    // flex: 1,
+
+    // elevation: 2,
+    // backgroundColor: "red",
+    // borderTopLeftRadius: 5,
+    // borderTopRightRadius: 5,
+    // marginHorizontal: 10,
+    // shadowColor: "#000",
+    // shadowRadius: 5,
+    // shadowOpacity: 0.3,
+    // shadowOffset: { x: 2, y: -2 },
+    // height: CARD_HEIGHT,
+    // width: CARD_WIDTH,
+    // overflow: "hidden",
+  },
+  cardImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    alignSelf: "center",
+  },
+  textContent: {
+    flex: 1,
+    padding: 10,
+  },
+  cardTitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  cardDescription: {
+    fontSize: 12,
+    color: "#444",
   },
 });
