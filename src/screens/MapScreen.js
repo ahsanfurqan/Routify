@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
+import logo from "../../assets/icon.png";
 import {
-  Animated,
   Image,
   ScrollView,
   StyleSheet,
@@ -10,7 +10,13 @@ import {
   Platform,
   FlatList,
 } from "react-native";
-import MapView, { Marker, Camera, Region, Polygon } from "react-native-maps";
+import MapView, {
+  Marker,
+  Camera,
+  Region,
+  Polygon,
+  Animated,
+} from "react-native-maps";
 import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
@@ -20,8 +26,10 @@ import LoadingScreen from "./LoadingScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
 const CARD_WIDTH = width * 0.8;
-const CARD_HEIGHT = 220;
+const CARD_HEIGHT = height * 0.3;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 import { Buses } from "../../Data/Buses";
 // import geolib from "geolib";
@@ -155,25 +163,17 @@ export default function MapScreen({ route, navigation }) {
     // const selector=useSelector(selectOrigin);
     // const origin = useSelector(selectOrigin);
 
-    return (
-      <View style={styles.container}>
-        {/* Googleautocomplete component */}
+    // return (
+    // <View style={styles.container}>
 
-        {bus == null && <DestinationButton stops={Stops} />}
-
-        {bus == null && (
-          <CureentLocationButton
-            cb={() => {
-              centerMap();
-            }}
-          />
-        )}
-        {/* <Animated.ScrollView
-          horizontal
+    {
+      /* <ScrollView
+          horizontal={true}
           scrollEventThrottle={1}
           showsHorizontalScrollIndicator={false}
           style={styles.scrollView}
         >
+          <Button>Click me</Button>
           {Buses.map((bus, index) => {
             console.log(bus.name);
             <View style={styles.card} key={index}>
@@ -189,12 +189,24 @@ export default function MapScreen({ route, navigation }) {
               </View>
             </View>;
           })}
-        </Animated.ScrollView> */}
-        {/* the card which will show details */}
+        </ScrollView> */
+    }
+    // </View>
+    // );
+    return (
+      <View style={styles.container}>
+        {bus == null && <DestinationButton stops={Stops} />}
+
+        {bus == null && (
+          <CureentLocationButton
+            cb={() => {
+              centerMap();
+            }}
+          />
+        )}
         {bus && origin && initialStop && (
           <TravelingCard from={initialStop.title} to={bus[1].title} />
         )}
-        {/* Map View component of google */}
         <MapView
           ref={mapRef}
           initialRegion={{
@@ -244,35 +256,7 @@ export default function MapScreen({ route, navigation }) {
               apikey={GOOGLE_MAPS_APIKEY}
             />
           )}
-          {/* {bus && origin&&(
-            <MapViewDirections
-            
-            />
-          )} */}
-          {/* <Marker
-            coordinate={{ latitude: 24.8238729, longitude: 67.13762 }}
-            pinColor={"red"} // any color
-            title={"You"}
-            description={"Your Current Location"}
-          /> */}
-          {/* {destination?.location && (
-            <Marker
-              coordinates={{
-                latitude: destination.location.latitude,
-                longitude: destination.location.longitude,
-              }}
-              title="destination"
-              description={destination.description}
-              identifier="destination"
-            />
-          )}
-          <Marker
-            coordinate={{ latitude: lat, longitude: lon }}
-            pinColor={"red"} // any color
-            title={"title"}
-            description={"description"}
-          /> */}
-          {/* <Marker coordinate={loc} /> */}
+
           {bus == null &&
             Stops.map((val, i) => {
               return (
@@ -307,54 +291,32 @@ export default function MapScreen({ route, navigation }) {
               />
             </Marker>
           )}
-
-          {/* <FlatList
-            data={Stops}
-            renderItem={({ item }) => (
-              <Stop
-                stop={{
-                  key: item.key,
-                  title: item.title,
-                  location: item.location,
-                }}
-              />
-            )}
-          /> */}
-          {/* <Stop
-            stop={{
-              key: "1",
-              title: "ahsan",
-              location: {
-                latitude: 24.8238729,
-                longitude: 67.13762,
-              },
-            }}
-          /> */}
         </MapView>
-        <ScrollView
-          horizontal={true}
-          scrollEventThrottle={1}
-          showsHorizontalScrollIndicator={false}
-          style={styles.scrollView}
-        >
-          <Button>Click me</Button>
-          {Buses.map((bus, index) => {
-            console.log(bus.name);
-            <View style={styles.card} key={index}>
-              <Image
-                source={{ uri: "bus_image.jpg" }}
-                style={styles.cardImage}
-                resizeMode="cover"
-              />
-              <View>
-                <Text numberOfLines={1} style={styles.cardTitle}>
-                  {bus.name}
-                </Text>
-              </View>
-            </View>;
-          })}
-        </ScrollView>
-        {/* <Animated.scrollView vertical={true}></Animated.scrollView> */}
+        <View style={styles.mainCard}>
+          <ScrollView
+            // vertical
+            // horizontal
+            scrollEventThrottle={1}
+            showsVerticalScrollIndicator={false}
+            style={styles.scrollView}
+            pagingEnabled
+          >
+            {/* {Buses.map((bus, index) => { */}
+            {Buses.map((bus, index) => {
+              return (
+                // console.log(bus.name);
+                <View style={styles.card} key={index}>
+                  <Image source={logo} style={styles.cardImage} />
+                  <Text style={styles.cardTitle}>{bus.name}</Text>
+                  <Text style={styles.cardDescription}>Gulshan</Text>
+                  <Text style={styles.cardDescription}>Korangi</Text>
+
+                  {/* <Text style={styles.cardDescription}>This is an image</Text> */}
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
       </View>
     );
   }
@@ -366,51 +328,59 @@ export default function MapScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  test: {
+    flex: 1,
+    backgroundColor: "black",
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
   scrollView: {
-    // zIndex: 11,
-    flex: 1,
-    zIndex: 9,
+    // zIndex: 9,
+    // flex: 1,
     position: "absolute",
+    top: 0,
     bottom: 0,
-    left: 0,
-    right: 0,
-    paddingVertical: 10,
+    // left: 0,
+    // right: 0,
+    // paddingVertical: 20,
+    // paddingHorizontal: 20,
   },
   endPadding: {
     paddingRight: width - CARD_WIDTH,
   },
   card: {
-    flex: 1,
-    // position: "absolute",
-    // flexDirection: "row",
-    width: width - 20,
-    height: Dimensions.get("window").height * 0.25,
-    // top: 80,
-    // left: 5,
-    right: width * 0.00001,
-    borderRadius: 30,
-    borderColor: "black",
-    borderWidth: 2,
-    backgroundColor: "white",
-    // alignItems: "center",
-    shadowColor: "#000000",
-    // elevation: 7,
-    // shadowRadius: 5,
-    shadowOpacity: 1.0,
+    // flexDirection: "column",
     // flex: 1,
-
-    // elevation: 2,
-    // backgroundColor: "red",
+    // justifyContent: "space-between",
+    backgroundColor: "#f5f5f5",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowOffset: { x: 2, y: -2 },
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH - 20,
+    borderWidth: 4,
+    // borderColor: "black",
+    // marginBottom: 20,
+    // paddingBottom: 200,
+    // overflow: "hidden",
+    marginBottom: 20,
+  },
+  mainCard: {
+    // marginBottom: ,
+    // justifyContent: "space-between",
+    backgroundColor: "#fff",
     // borderTopLeftRadius: 5,
     // borderTopRightRadius: 5,
     // marginHorizontal: 10,
@@ -418,26 +388,45 @@ const styles = StyleSheet.create({
     // shadowRadius: 5,
     // shadowOpacity: 0.3,
     // shadowOffset: { x: 2, y: -2 },
-    // height: CARD_HEIGHT,
-    // width: CARD_WIDTH,
+    height: 400,
+    width: CARD_WIDTH,
     // overflow: "hidden",
   },
   cardImage: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
+    // borderTopLeftRadius: 5,
+    // borderTopRightRadius: 5,
+    // overflow: "hidden",
+    // shadowRadius: 5,
+    // shadowOpacity: 0.3,
+    // zIndex: 1111,
+    resizeMode: "contain",
+    // overflow: "hidden",
+    // borderRadius: 40,
+    // flex: 1,
+    width: 150,
+    height: 80,
     alignSelf: "center",
+    // color: "grey",
+    // borderWidth: 3,
+    // backgroundColor: "grey",
+    // borderColor: "black",
   },
   textContent: {
-    flex: 1,
+    flex: 2,
     padding: 10,
   },
   cardTitle: {
     fontSize: 12,
     fontWeight: "bold",
+    alignSelf: "center",
+    // alignContent: "center",
   },
   cardDescription: {
     fontSize: 12,
     color: "#444",
+  },
+  button: {
+    alignItems: "center",
+    marginTop: 5,
   },
 });

@@ -45,4 +45,49 @@ export const Buses = [
       },
     ],
   },
+  {
+    key: "4",
+    name: "w13",
+    route: [
+      {
+        stop: "4",
+      },
+      {
+        stop: "6",
+      },
+      {
+        stop: "1",
+      },
+    ],
+  },
+  {
+    key: "5",
+    name: "w15",
+    route: [
+      {
+        stop: "4",
+      },
+      {
+        stop: "6",
+      },
+      {
+        stop: "1",
+      },
+    ],
+  },
+  {
+    key: "6",
+    name: "w16",
+    route: [
+      {
+        stop: "4",
+      },
+      {
+        stop: "6",
+      },
+      {
+        stop: "1",
+      },
+    ],
+  },
 ];

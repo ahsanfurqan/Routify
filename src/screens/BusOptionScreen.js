@@ -22,7 +22,12 @@ import {
 import { Buses } from "../../Data/Buses";
 import { getDistance } from "geolib";
 import { Card, Icon } from "react-native-elements";
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
+const CARD_WIDTH = width * 0.8;
+const CARD_HEIGHT = height * 0.3;
+const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 // const width = Dimensions.get("window").width;
 // const height = Dimensions.get("window").height - 65;
 
@@ -249,6 +254,63 @@ export default function BusOptionScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    // zIndex: 11,
+    // flex: 1,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    // paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+  endPadding: {
+    paddingRight: width - CARD_WIDTH,
+  },
+  card: {
+    elevation: 2,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    marginHorizontal: 10,
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowOffset: { x: 2, y: -2 },
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    overflow: "hidden",
+  },
+  cardImage: {
+    shadowOpacity: 0.3,
+    resizeMode: "contain",
+    overflow: "hidden",
+    borderRadius: 40,
+    // flex: 1,
+    width: 150,
+    height: 80,
+    alignSelf: "center",
+    borderWidth: 3,
+    // borderColor: "black",
+  },
+  textContent: {
+    flex: 2,
+    padding: 10,
+  },
+  cardTitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    alignSelf: "center",
+    // alignContent: "center",
+  },
+  cardDescription: {
+    fontSize: 12,
+    color: "#444",
+  },
+  button: {
+    alignItems: "center",
+    marginTop: 5,
+  },
   container: {
     flex: 1,
     paddingTop: 20,
