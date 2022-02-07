@@ -1,43 +1,48 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
-import { Provider } from "react-redux";
-import MapScreen from "./src/screens/MapScreen";
-import SearchScreen from "./src/screens/SearchScreen";
-import BusOptionScreen from "./src/screens/BusOptionScreen";
-import { store } from "./store";
-import "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import AuthNavigation from "./app/navigation/auth-navigation/AuthNavigation";
+import AuthContext from "./app/Context/AuthContext";
+import axios from "axios";
+import env from "./app/environment/environment";
+import Main from "./Main";
 // import LoadingScreen from "./src/screens/LoadingScreen";
 import StopsScreen from "./src/screens/StopsScreen";
 import BusScreen from "./src/screens/BusScreen";
 import { stop } from "./Data/stop";
 
 export default function App() {
-  const stack = createStackNavigator();
+  const [user, setUser] = useState(false);
+  const [change, setChange] = useState(false);
+  const [forgetEmail, setForgetEmail] = useState("");
+
+  const getProfile = async () => {
+    try {
+      let res = await axios.get(`${env.baseUrl}/profile`, {
+        withCredentials: true,
+      });
+      setUser(res.data.profile);
+    } catch (err) {
+      console.log("err:", err.response.data);
+    }
+  };
+  const logout = async () => {
+    await axios.post(`${env.baseUrl}/logout`);
+    setUser(false);
+  };
+
+  useEffect(() => {
+    getProfile();
+    // logout();
+    // login();
+  }, [change]);
   return (
-    <Provider store={store}>
+    <AuthContext.Provider
+      value={{ user, setUser, setChange, change, forgetEmail, setForgetEmail }}
+    >
       <NavigationContainer>
-        <stack.Navigator>
-          <stack.Screen
-            name="MapScreen"
-            component={MapScreen}
-            options={{ headerShown: false }}
-          />
-          <stack.Screen
-            name="Where to go?"
-            component={SearchScreen}
-            options={{ headerShown: true }}
-          />
-          <stack.Screen
-            name="BusScreen"
-            component={BusOptionScreen}
-            options={{ headerShown: true }}
-          />
-        </stack.Navigator>
-        {/* <MapScreen /> */}
+        {!user ? <AuthNavigation /> : <Main />}
       </NavigationContainer>
-    </Provider>
+    </AuthContext.Provider>
     // <LoadingScreen />
     // <StopsScreen />
     // <BusScreen />

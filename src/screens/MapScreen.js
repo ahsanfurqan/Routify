@@ -292,31 +292,27 @@ export default function MapScreen({ route, navigation }) {
             </Marker>
           )}
         </MapView>
-        <View style={styles.mainCard}>
+        {/* <View style={styles.mainCard}>
           <ScrollView
-            // vertical
-            // horizontal
+           
             scrollEventThrottle={1}
             showsVerticalScrollIndicator={false}
             style={styles.scrollView}
             pagingEnabled
           >
-            {/* {Buses.map((bus, index) => { */}
             {Buses.map((bus, index) => {
               return (
-                // console.log(bus.name);
                 <View style={styles.card} key={index}>
                   <Image source={logo} style={styles.cardImage} />
                   <Text style={styles.cardTitle}>{bus.name}</Text>
                   <Text style={styles.cardDescription}>Gulshan</Text>
                   <Text style={styles.cardDescription}>Korangi</Text>
 
-                  {/* <Text style={styles.cardDescription}>This is an image</Text> */}
                 </View>
               );
             })}
           </ScrollView>
-        </View>
+        </View> */}
       </View>
     );
   }
