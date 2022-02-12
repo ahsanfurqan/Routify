@@ -21,6 +21,7 @@ import * as Location from "expo-location";
 import CureentLocationButton from "./Components/CureentLocationButton";
 import DestinationButton from "./Components/DestinationButton";
 import TravelingCard from "./Components/TravelingCard";
+import RideOptionCard from "./Components/RideOptionCard";
 import LoadingScreen from "./LoadingScreen";
 // import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -56,8 +57,15 @@ export default function MapScreen({ route, navigation }) {
   // getting data from the navigation
   var stop = [];
   // const [Stops, setstop] = useState([]);
+  console.log(route.params);
+  // let ride_card = null;
+  const [ride_card, setRide_Card] = useState(null);
 
-  const bus = route.params;
+  // elseif(route.params.){
+
+  // }
+  // const bus = route.params;
+  const bus = null;
 
   // const destination = route.params[1];
   // const temp = {
@@ -93,6 +101,17 @@ export default function MapScreen({ route, navigation }) {
   //     stop= JSON.stringify(res);
   //   })
   // },)
+
+  useEffect(() => {
+    if (route.params != undefined) {
+      const { ride_Card } = route.params;
+      setRide_Card(ride_Card);
+      // console.log(1);
+      // console.log("hey" + ride_card1);
+    } else {
+      setRide_Card(null);
+    }
+  });
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -282,16 +301,17 @@ export default function MapScreen({ route, navigation }) {
               />
             </Marker>
           )}
-          {bus && (
+          {/* {bus && (
             <Marker coordinate={bus[1].location}>
               <MaterialCommunityIcons
                 name="bus-marker"
                 size={24}
                 color="black"
-              />
+              /> 
             </Marker>
-          )}
+          )} */}
         </MapView>
+        {ride_card && <RideOptionCard />}
         {/* <View style={styles.mainCard}>
           <ScrollView
            

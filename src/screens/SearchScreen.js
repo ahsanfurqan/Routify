@@ -18,7 +18,7 @@ import {
   selectOrigin,
   setInitialStop,
 } from "../../slices/navSlice";
-import{host} from "@env";
+import { host } from "@env";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -113,7 +113,7 @@ export default function SearchScreen({ route, navigation }) {
     }
     // dispatch(setInitialStop(closest));
     // console.log(item);
-    navigation.navigate("BusScreen", item);
+    navigation.navigate("MapScreen", { ride_Card: item });
     // const destination = useSelector(selectDestination);
     // console.log(destination);
   };
