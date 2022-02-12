@@ -57,15 +57,16 @@ export default function MapScreen({ route, navigation }) {
   // getting data from the navigation
   var stop = [];
   // const [Stops, setstop] = useState([]);
-  console.log(route.params);
+  // console.log(route.params);
   // let ride_card = null;
   const [ride_card, setRide_Card] = useState(null);
+  const [bus, setBus] = useState(null);
 
   // elseif(route.params.){
 
   // }
   // const bus = route.params;
-  const bus = null;
+  // const bus = null;
 
   // const destination = route.params[1];
   // const temp = {
@@ -104,11 +105,21 @@ export default function MapScreen({ route, navigation }) {
 
   useEffect(() => {
     if (route.params != undefined) {
-      const { ride_Card } = route.params;
-      setRide_Card(ride_Card);
-      // console.log(1);
-      // console.log("hey" + ride_card1);
+      console.log(route.params);
+      if (route.params.ride_Card) {
+        const { ride_Card } = route.params;
+        setBus(null);
+        setRide_Card(ride_Card);
+      } else if (route.params.bus) {
+        const { bus } = route.params;
+        setRide_Card(null);
+        setBus(bus);
+
+        // console.log(1);
+        // console.log("hey" + ride_card1);
+      }
     } else {
+      setBus(null);
       setRide_Card(null);
     }
   });
@@ -216,7 +227,7 @@ export default function MapScreen({ route, navigation }) {
       <View style={styles.container}>
         {bus == null && <DestinationButton stops={Stops} />}
 
-        {bus == null && (
+        {bus == null && ride_card == null && (
           <CureentLocationButton
             cb={() => {
               centerMap();
@@ -311,7 +322,7 @@ export default function MapScreen({ route, navigation }) {
             </Marker>
           )} */}
         </MapView>
-        {ride_card && <RideOptionCard />}
+        {ride_card && <RideOptionCard item={ride_card} />}
         {/* <View style={styles.mainCard}>
           <ScrollView
            

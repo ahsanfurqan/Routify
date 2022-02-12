@@ -47,7 +47,7 @@ export const Buses = [
   },
   {
     key: "4",
-    name: "w13",
+    name: "D16",
     route: [
       {
         stop: "4",
