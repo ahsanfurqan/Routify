@@ -7,10 +7,11 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationContainer } from "@react-navigation/native";
 import logo from "../../../assets/bus_image.jpg";
 import { Buses } from "../../../Data/Buses";
 import BusOptionScreen from "../BusOptionScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // import { TouchableOpacity } from "react-native-gesture-handler";
 import React from "react";
@@ -21,6 +22,7 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const CARD_WIDTH = width * 0.8;
 const CARD_HEIGHT = height * 0.3;
+const Tab = createBottomTabNavigator();
 export default function RideOptionCard(props) {
   const navigation = useNavigation();
   // console.log(props.item);
