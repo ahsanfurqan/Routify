@@ -252,7 +252,7 @@ export default function MapScreen({ route, navigation }) {
           <TravelingCard
             from={initialStop.title}
             to={morebus[2].title}
-            stops={2}
+            stop={2}
           />
         )}
         <MapView
