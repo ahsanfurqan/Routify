@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import tw from "tailwind-react-native-classnames";
 import { Ionicons } from "@expo/vector-icons";
@@ -22,9 +23,11 @@ import {
 } from "../../slices/navSlice";
 // import { Stops } from "../../Data/stop";
 import { Buses } from "../../Data/Buses";
+import { Stops } from "../../Data/stop";
 import { getDistance } from "geolib";
 import { Card, Icon } from "react-native-elements";
 import { object } from "yup";
+import { useTheme } from "react-navigation";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -45,36 +48,57 @@ export default function BusOptionScreen({ item }) {
 
   let destination_busses = [];
   let origen_busses = [];
-  useEffect(() => {
-    Buses.map((item, a) => {
-      for (var i = 0; i < item.route.length; i++) {
-        if (item.route[i].stop == destination.key) {
-          //destination mojood hai
-          destination_busses.push(item);
-        } else if (item.route[i].stop == initialstop.key) {
-          //destination mojood hai
-          origen_busses.push(item);
-        }
-        // if (
-        //   item.route[1].stop == initialstop.key ||
-        //   item.route[2].stop == initialstop.key ||
-        //   item.route[0].stop == initialstop.key
-        // ) {
-        //   if (
-        //     item.route[1].stop == destination.key ||
-        //     item.route[2].stop == destination.key ||
-        //     item.route[0].stop == destination.key
-        //   ) {
 
-        // }
+  // useEffect(() => {
+
+  //   // console.log(destination_busses);
+  //   // console.log(origen_busses);
+  // });
+  Buses.map((item, a) => {
+    for (var i = 0; i < item.route.length; i++) {
+      if (item.route[i].stop == destination.key) {
+        //destination mojood hai
+        destination_busses.push(item);
+      } else if (item.route[i].stop == initialstop.key) {
+        //destination mojood hai
+        origen_busses.push(item);
+      }
+      // if (
+      //   item.route[1].stop == initialstop.key ||
+      //   item.route[2].stop == initialstop.key ||
+      //   item.route[0].stop == initialstop.key
+      // ) {
+      //   if (
+      //     item.route[1].stop == destination.key ||
+      //     item.route[2].stop == destination.key ||
+      //     item.route[0].stop == destination.key
+      //   ) {
+
+      // }
+    }
+  });
+  let latitude = null;
+  let longitude = null;
+  let more = null;
+  const getStop = (find) => {
+    // console.log("find");
+    // console.log(find);
+    Stops.map((value, i) => {
+      if (value.key == find) {
+        // console.log("ma");
+        // console.log(value.title);
+        // more.push(value.location);
+        more = value.title;
+        latitude = value.location.latitude;
+        longitude = value.location.longitude;
+        return value.title;
       }
     });
-    console.log(destination_busses);
-    // console.log(origen_busses);
-  });
-
+  };
   var is_destinationFound = false;
   const ItemViewer = ({ item }) => {
+    // console.log("now");
+    // console.log(item);
     for (var i = 0; i < item.route.length; i++) {
       if (item.route[i].stop == destination.key) {
         is_destinationFound = true;
@@ -138,96 +162,140 @@ export default function BusOptionScreen({ item }) {
           </Card>
         );
       }
-      console.log(is_destinationFound);
-      if (!is_destinationFound) {
-        // console.log("here");
-        // console.log(item.name);
-        for (var k = 0; k < item.route.length; k++) {
-          console.log("done");
-          multiplestops();
-          destination_busses.map((value, index) => {
-            console.log("ajao");
-            for (var j = 0; j < value.route.length; j++) {
-              if (item.routes[k].stop == value.route[j].stop) {
-                console.log(item.name);
-                console.log(value.name);
-                return (
-                  <Card containerStyle={styles.cardStyle}>
-                    <Text style={styles.busName}>ahsan</Text>
-                    <View
+      // console.log(is_destinationFound);
+      // if (!is_destinationFound) {
+      //   // console.log("here");
+      //   // console.log(item.name);
+      // }
+    }
+    if (!is_destinationFound) {
+      for (var j = 0; j < item.route.length; j++) {
+        // return <Text>Ahsan</Text>;
+        for (var k = 0; k < destination_busses.length; k++) {
+          for (var s = 0; s < destination_busses[k].route.length; s++) {
+            if (destination_busses[k].route[s].stop == item.route[j].stop) {
+              const n = getStop(destination_busses[k].route[s].stop);
+              console.log(n);
+              console.log("me");
+              return (
+                <Card containerStyle={styles.cardStyle}>
+                  <View
+                    style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}
+                  >
+                    <Text
+                      style={[styles.busName, { textAlign: "left", width: 80 }]}
+                    >
+                      {item.name}
+                    </Text>
+                    <MaterialCommunityIcons
+                      name="arrow-left"
+                      color="black"
+                      size={25}
+                      style={{ alignSelf: "center" }}
+                    />
+                    <Text
                       style={{
+                        textAlign: "right",
+                        color: "black",
+                        fontSize: 18,
                         flex: 1,
-                        flexDirection: "row",
-                        paddingBottom: 10,
                       }}
                     >
-                      <Text style={{ color: "green", flex: 1 }}>
-                        Bus Fare:{item.fare}Rs
-                      </Text>
-                      <Text style={{ color: "black" }}>
-                        {getDistance(
-                          initialstop.location,
-                          destination.location
-                        )}
-                        {"m"}
-                      </Text>
-                    </View>
-                    <View
+                      {initialstop.title}
+                    </Text>
+                    {/* <Text style={{ color: "green", flex: 1 }}>
+                      Bus Fare:{item.fare}Rs
+                    </Text>
+                    <Text style={{ color: "black" }}>
+                      {getDistance(initialstop.location, destination.location)}
+                      {"m"}
+                    </Text> */}
+                  </View>
+                  <MaterialCommunityIcons
+                    name="arrow-down"
+                    color="black"
+                    size={25}
+                    // style={{ alignSelf: "left" }}
+                  />
+                  <View
+                    style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}
+                  >
+                    <Text
                       style={{
+                        textAlign: "left",
+                        color: "black",
+                        fontSize: 18,
                         flex: 1,
-                        flexDirection: "row",
-                        paddingBottom: 10,
+                        // width: 100,
                       }}
                     >
-                      <Text
-                        style={{
-                          // textAlign: "left",
-                          color: "black",
-                          fontSize: 18,
-                          flex: 1,
-                        }}
-                      >
-                        {initialstop.title}
-                      </Text>
-                      <Text
-                        style={{
-                          // textAlign: "right",
-                          color: "black",
-                          fontSize: 18,
-                          flex: 1,
-                        }}
-                      >
-                        {destination.title}
-                      </Text>
-                    </View>
+                      {more}
+                    </Text>
+                    <MaterialCommunityIcons
+                      name="arrow-right"
+                      color="black"
+                      size={25}
+                      // style={{ alignSelf: "center" }}
+                    />
+                    <Text
+                      style={{
+                        textAlign: "right",
+                        color: "black",
+                        fontSize: 18,
+                        flex: 1,
+                      }}
+                    >
+                      {destination_busses[k].name}
+                    </Text>
+                  </View>
+                  <MaterialCommunityIcons
+                    name="arrow-down"
+                    color="black"
+                    size={25}
+                    style={{ alignSelf: "flex-end" }}
+                  />
+                  <View
+                    style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}
+                  >
+                    <Text
+                      style={{
+                        textAlign: "right",
+                        color: "black",
+                        fontSize: 18,
+                        flex: 1,
+                      }}
+                    >
+                      {destination.title}
+                    </Text>
+                  </View>
 
-                    <TouchableOpacity
-                      style={({ marginLeft: 15 }, tw`mt-2 p-2 `)}
-                      onPress={() => {
-                        // alert("Id : " + item.key + " Title : " + item.name);
-                        // dispatch(setSelectedBus(item));
-                        navigation.navigate("MapScreen", {
-                          bus: [item, destination],
-                        });
+                  <TouchableOpacity
+                    style={({ marginLeft: 15 }, tw`mt-2 p-2 `)}
+                    onPress={() => {
+                      // alert("levol");
+                      // dispatch(setSelectedBus(item));
+                      navigation.navigate("MapScreen", {
+                        multipleBus: [item, latitude, destination, longitude],
+                      });
+                    }}
+                  >
+                    <Icon
+                      style={{
+                        padding: 2,
+                        backgroundColor: "black",
+                        marginTop: 4,
+                        // width: 10,
                       }}
-                    >
-                      <Icon
-                        style={{
-                          padding: 2,
-                          backgroundColor: "black",
-                          marginTop: 4,
-                          // width: 10,
-                        }}
-                        name="arrowright"
-                        color="white"
-                        type="antdesign"
-                      />
-                    </TouchableOpacity>
-                  </Card>
-                );
-              }
+                      name="arrowright"
+                      color="white"
+                      type="antdesign"
+                    />
+                  </TouchableOpacity>
+                </Card>
+              );
             }
-          });
+          }
+          // return <Text>ahsan</Text>;
         }
       }
     }
@@ -253,6 +321,7 @@ export default function BusOptionScreen({ item }) {
         renderItem={ItemViewer}
         keyExtractor={(item) => item.key}
       />
+      {/* {console.log(destination_busses)} */}
     </View>
   );
 }

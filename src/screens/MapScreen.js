@@ -61,6 +61,7 @@ export default function MapScreen({ route, navigation }) {
   // let ride_card = null;
   const [ride_card, setRide_Card] = useState(null);
   const [bus, setBus] = useState(null);
+  const [morebus, setmoreBus] = useState(null);
 
   // elseif(route.params.){
 
@@ -109,16 +110,24 @@ export default function MapScreen({ route, navigation }) {
       if (route.params.ride_Card) {
         const { ride_Card } = route.params;
         setBus(null);
+        setmoreBus(null);
         setRide_Card(ride_Card);
       } else if (route.params.bus) {
         const { bus } = route.params;
         setRide_Card(null);
+        setmoreBus(null);
         setBus(bus);
 
         // console.log(1);
         // console.log("hey" + ride_card1);
+      } else if (route.params.multipleBus) {
+        const { multipleBus } = route.params;
+        setBus(null);
+        setRide_Card(null);
+        setmoreBus(multipleBus);
       }
     } else {
+      setmoreBus(null);
       setBus(null);
       setRide_Card(null);
     }
@@ -223,6 +232,8 @@ export default function MapScreen({ route, navigation }) {
     }
     // </View>
     // );
+    // console.log("zinda");
+    // console.log(morebus);
     return (
       <View style={styles.container}>
         {bus == null && <DestinationButton stops={Stops} />}
@@ -237,6 +248,13 @@ export default function MapScreen({ route, navigation }) {
         {bus && origin && initialStop && (
           <TravelingCard from={initialStop.title} to={bus[1].title} />
         )}
+        {morebus && origin && initialStop && (
+          <TravelingCard
+            from={initialStop.title}
+            to={morebus[2].title}
+            stops={2}
+          />
+        )}
         <MapView
           ref={mapRef}
           initialRegion={{
@@ -250,6 +268,64 @@ export default function MapScreen({ route, navigation }) {
           showsMyLocationButton={false}
           style={styles.map}
         >
+          {morebus && origin && initialStop && (
+            <MapViewDirections
+              lineDashPattern={[0]}
+              origin={{
+                latitude: origin.latitude,
+                longitude: origin.longitude,
+              }}
+              destination={{
+                // latitude: destination.location.latitude,
+                // longitude: destination.location.longitude,
+                latitude: initialStop.location.latitude,
+                longitude: initialStop.location.longitude,
+              }}
+              strokeWidth={2}
+              // strokeColor="hotpink"
+              apikey={GOOGLE_MAPS_APIKEY}
+            />
+          )}
+          {morebus && initialStop && (
+            <MapViewDirections
+              lineDashPattern={[0]}
+              origin={{
+                latitude: initialStop.location.latitude,
+                longitude: initialStop.location.longitude,
+              }}
+              destination={{
+                latitude: morebus[1],
+                longitude: morebus[3],
+                // latitude: destination.location.latitude,
+                // longitude: destination.location.longitude,
+                // latitude: morebus[1].location.latitude,
+                // longitude: morebus[1].location.longitude,
+              }}
+              strokeWidth={2}
+              strokeColor="red"
+              apikey={GOOGLE_MAPS_APIKEY}
+            />
+          )}
+          {morebus && initialStop && (
+            <MapViewDirections
+              lineDashPattern={[0]}
+              origin={{
+                latitude: morebus[1],
+                longitude: morebus[3],
+              }}
+              destination={{
+                latitude: morebus[2].location.latitude,
+                longitude: morebus[2].location.longitude,
+                // latitude: destination.location.latitude,
+                // longitude: destination.location.longitude,
+                // latitude: morebus[1].location.latitude,
+                // longitude: morebus[1].location.longitude,
+              }}
+              strokeWidth={2}
+              strokeColor="hotpink"
+              apikey={GOOGLE_MAPS_APIKEY}
+            />
+          )}
           {bus && origin && initialStop && (
             <MapViewDirections
               lineDashPattern={[0]}
