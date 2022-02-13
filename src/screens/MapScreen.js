@@ -364,6 +364,7 @@ export default function MapScreen({ route, navigation }) {
           )}
 
           {bus == null &&
+            morebus == null &&
             Stops.map((val, i) => {
               return (
                 <Marker
@@ -388,15 +389,44 @@ export default function MapScreen({ route, navigation }) {
               />
             </Marker>
           )}
-          {/* {bus && (
+          {bus && (
             <Marker coordinate={bus[1].location}>
               <MaterialCommunityIcons
                 name="bus-marker"
                 size={24}
                 color="black"
-              /> 
+              />
             </Marker>
-          )} */}
+          )}
+          {morebus && (
+            <Marker coordinate={initialStop.location}>
+              <MaterialCommunityIcons
+                name="bus-marker"
+                size={24}
+                color="black"
+              />
+            </Marker>
+          )}
+          {morebus && (
+            <Marker coordinate={morebus[2].location}>
+              <MaterialCommunityIcons
+                name="bus-marker"
+                size={24}
+                color="black"
+              />
+            </Marker>
+          )}
+          {morebus && (
+            <Marker
+              coordinate={{ latitude: morebus[1], longitude: morebus[3] }}
+            >
+              <MaterialCommunityIcons
+                name="bus-marker"
+                size={24}
+                color="black"
+              />
+            </Marker>
+          )}
         </MapView>
         {ride_card && <RideOptionCard item={ride_card} />}
         {/* <View style={styles.mainCard}>
