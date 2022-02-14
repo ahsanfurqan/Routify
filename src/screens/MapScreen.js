@@ -56,34 +56,14 @@ export default function MapScreen({ route, navigation }) {
 
   // getting data from the navigation
   var stop = [];
-  // const [Stops, setstop] = useState([]);
-  // console.log(route.params);
-  // let ride_card = null;
+
   const [ride_card, setRide_Card] = useState(null);
   const [bus, setBus] = useState(null);
   const [morebus, setmoreBus] = useState(null);
 
-  // elseif(route.params.){
-
-  // }
-  // const bus = route.params;
-  // const bus = null;
-
-  // const destination = route.params[1];
-  // const temp = {
-  //   latitude: 24.8238729,
-  //   longitude: 67.13762,
-  //   latitudeDelta: 0.092,
-  //   longitudeDelta: 0.0421,
-  // };
-  // setting location and error message to null initially
   const [location, setLocation] = useState(null);
   const [loc, setLoc] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  // pulling destination from redux
-  // const bus = useSelector(selectSelectedBus);
-  // const destination = useSelector(selectDestination);
-  // const Bus = useSelector(selectSelectedBus);
 
   const origin = useSelector(selectOrigin);
   // const destination = useSelector(selectDestination);
@@ -97,12 +77,6 @@ export default function MapScreen({ route, navigation }) {
     // console.log(loc);
     mapRef.current.animateToRegion(loc);
   };
-  // useEffect(()=>{
-  //   (async()=>{
-  //     let res= await fetch("http://192.168.18.241:3000/getAllStops");
-  //     stop= JSON.stringify(res);
-  //   })
-  // },)
 
   useEffect(() => {
     if (route.params != undefined) {
@@ -153,12 +127,6 @@ export default function MapScreen({ route, navigation }) {
         longitudeDelta: 0.0421,
       };
       setLoc(dum);
-      //   await fetch("http://"+host+":3000/getAllStops")
-      // .then(data=>data.json())
-      // .then(ans=>{
-      //   // console.log(ans)
-      //   setstop(ans);
-      // })
     })();
   }, []);
   var lat;
@@ -177,63 +145,9 @@ export default function MapScreen({ route, navigation }) {
   else if (location) {
     lat = JSON.parse(location.coords.latitude);
     lon = JSON.parse(location.coords.longitude);
-    // console.log(location);
-    // console.log("Destination" + destination);
-    // const loc = {
-    //   latitude: lat,
-    //   longitude: lon,
-    // };
-    // setLoc(loc);
-    // const l = {
-    //   latitude: 24.8238729,
-    //   longitude: 67.13762,
-    // };
 
-    // map for animating
-    // const mapView=React.createRef();s
-    // const animateMap=()=>{
-
-    // }
     dispatch(setOrigin(loc));
-    // console.log(stop)
 
-    // text = JSON.parse(location.coords.longitude);
-    // console.log(GOOGLE_MAPS_APIKEY);
-    // const selector=useSelector(selectOrigin);
-    // const origin = useSelector(selectOrigin);
-
-    // return (
-    // <View style={styles.container}>
-
-    {
-      /* <ScrollView
-          horizontal={true}
-          scrollEventThrottle={1}
-          showsHorizontalScrollIndicator={false}
-          style={styles.scrollView}
-        >
-          <Button>Click me</Button>
-          {Buses.map((bus, index) => {
-            console.log(bus.name);
-            <View style={styles.card} key={index}>
-              <Image
-                source={{ uri: "bus_image.jpg" }}
-                style={styles.cardImage}
-                resizeMode="cover"
-              />
-              <View>
-                <Text numberOfLines={1} style={styles.cardTitle}>
-                  {bus.name}
-                </Text>
-              </View>
-            </View>;
-          })}
-        </ScrollView> */
-    }
-    // </View>
-    // );
-    // console.log("zinda");
-    // console.log(morebus);
     return (
       <View style={styles.container}>
         {bus == null && <DestinationButton stops={Stops} />}
