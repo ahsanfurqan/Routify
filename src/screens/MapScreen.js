@@ -249,11 +249,7 @@ export default function MapScreen({ route, navigation }) {
           <TravelingCard from={initialStop.title} to={bus[1].title} />
         )}
         {morebus && origin && initialStop && (
-          <TravelingCard
-            from={initialStop.title}
-            to={morebus[2].title}
-            stop={2}
-          />
+          <TravelingCard from={initialStop.title} to={morebus[4]} stop={2} />
         )}
         <MapView
           ref={mapRef}
@@ -264,6 +260,7 @@ export default function MapScreen({ route, navigation }) {
             longitudeDelta: 0.0421,
           }}
           showsUserLocation={true}
+          followUserLocation={true}
           showsCompass={true}
           showsMyLocationButton={false}
           style={styles.map}
@@ -271,6 +268,12 @@ export default function MapScreen({ route, navigation }) {
           {morebus && origin && initialStop && (
             <MapViewDirections
               lineDashPattern={[0]}
+              lineCap="round"
+              lineJoin="round"
+              geodesic={true}
+              tappable={true}
+              precision="high"
+              timePrecision="now"
               origin={{
                 latitude: origin.latitude,
                 longitude: origin.longitude,
@@ -289,6 +292,12 @@ export default function MapScreen({ route, navigation }) {
           {morebus && initialStop && (
             <MapViewDirections
               lineDashPattern={[0]}
+              lineCap="round"
+              lineJoin="round"
+              geodesic={true}
+              tappable={true}
+              precision="high"
+              timePrecision="now"
               origin={{
                 latitude: initialStop.location.latitude,
                 longitude: initialStop.location.longitude,
@@ -309,6 +318,12 @@ export default function MapScreen({ route, navigation }) {
           {morebus && initialStop && (
             <MapViewDirections
               lineDashPattern={[0]}
+              lineCap="round"
+              lineJoin="round"
+              geodesic={true}
+              tappable={true}
+              precision="high"
+              timePrecision="now"
               origin={{
                 latitude: morebus[1],
                 longitude: morebus[3],
@@ -329,6 +344,13 @@ export default function MapScreen({ route, navigation }) {
           {bus && origin && initialStop && (
             <MapViewDirections
               lineDashPattern={[0]}
+              lineCap="round"
+              lineJoin="round"
+              geodesic={true}
+              tappable={true}
+              precision="high"
+              timePrecision="now"
+              // lineDashPattern={[0]}
               origin={{
                 latitude: origin.latitude,
                 longitude: origin.longitude,
@@ -347,6 +369,12 @@ export default function MapScreen({ route, navigation }) {
           {bus && initialStop && (
             <MapViewDirections
               lineDashPattern={[0]}
+              lineCap="round"
+              lineJoin="round"
+              geodesic={true}
+              tappable={true}
+              precision="high"
+              timePrecision="now"
               origin={{
                 latitude: initialStop.location.latitude,
                 longitude: initialStop.location.longitude,

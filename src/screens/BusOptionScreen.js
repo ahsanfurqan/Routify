@@ -275,7 +275,13 @@ export default function BusOptionScreen({ item }) {
                       // alert("levol");
                       // dispatch(setSelectedBus(item));
                       navigation.navigate("MapScreen", {
-                        multipleBus: [item, latitude, destination, longitude],
+                        multipleBus: [
+                          item,
+                          latitude,
+                          destination,
+                          longitude,
+                          more,
+                        ],
                       });
                     }}
                   >
