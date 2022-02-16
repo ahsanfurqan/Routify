@@ -181,9 +181,9 @@ export default function MapScreen({ route, navigation }) {
         >
           {morebus && origin && initialStop && (
             <MapViewDirections
-              lineDashPattern={[0]}
-              lineCap="round"
-              lineJoin="round"
+              lineDashPattern={[1]}
+              lineCap="square"
+              // lineJoin="round"
               geodesic={true}
               tappable={true}
               precision="high"
@@ -205,9 +205,9 @@ export default function MapScreen({ route, navigation }) {
           )}
           {morebus && initialStop && (
             <MapViewDirections
-              lineDashPattern={[0]}
-              lineCap="round"
-              lineJoin="round"
+              lineDashPattern={[1]}
+              lineCap="square"
+              // lineJoin="round"
               geodesic={true}
               tappable={true}
               precision="high"
@@ -231,9 +231,9 @@ export default function MapScreen({ route, navigation }) {
           )}
           {morebus && initialStop && (
             <MapViewDirections
-              lineDashPattern={[0]}
-              lineCap="round"
-              lineJoin="round"
+              lineDashPattern={[1]}
+              lineCap="square"
+              // lineJoin="round"
               geodesic={true}
               tappable={true}
               precision="high"
@@ -257,9 +257,9 @@ export default function MapScreen({ route, navigation }) {
           )}
           {bus && origin && initialStop && (
             <MapViewDirections
-              lineDashPattern={[0]}
-              lineCap="round"
-              lineJoin="round"
+              lineDashPattern={[1]}
+              lineCap="square"
+              // lineJoin="round"
               geodesic={true}
               tappable={true}
               precision="high"
@@ -282,9 +282,9 @@ export default function MapScreen({ route, navigation }) {
           )}
           {bus && initialStop && (
             <MapViewDirections
-              lineDashPattern={[0]}
-              lineCap="round"
-              lineJoin="round"
+              lineDashPattern={[1]}
+              lineCap="square"
+              // lineJoin="round"
               geodesic={true}
               tappable={true}
               precision="high"
