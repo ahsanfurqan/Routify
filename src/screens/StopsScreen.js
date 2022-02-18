@@ -1,4 +1,4 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,7 +14,7 @@ import {
   Alert,
 } from "react-native";
 import { Card, Icon } from "react-native-elements";
-import{host} from "@env";
+import { host } from "@env";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -25,42 +25,40 @@ export default function StopsScreen() {
 
   const sendData = () => {
     // console.log(host);
-    if(name==""||latitude==""||longitude==""){
-      Alert.alert("Error","Fields can't be empty");
-    }
-    else{
-        fetch("http://"+host+":3000/insert/stop", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        title: name,
-        location: {
-          latitude: parseFloat(latitude),
-          longitude: parseFloat(longitude),
-          latitudeDelta: 0.092,
-          longitudeDelta: 0.0421,
+    if (name == "" || latitude == "" || longitude == "") {
+      Alert.alert("Error", "Fields can't be empty");
+    } else {
+      fetch("http://" + host + ":3000/insert/stop", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
         },
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data=="Success")
-        Alert.alert(data, "data inserted");
-        else{
-          Alert.alert("Error", data);
-        }
+        body: JSON.stringify({
+          title: name,
+          location: {
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude),
+            latitudeDelta: 0.092,
+            longitudeDelta: 0.0421,
+          },
+        }),
       })
-      .catch((error) => console.error(error.message));
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data == "Success") Alert.alert(data, "data inserted");
+          else {
+            Alert.alert("Error", data);
+          }
+        })
+        .catch((error) => console.error(error.message));
     }
   };
-  const clearData = ()=>{
-    setname('');
-    setlatitude('');
-    setlongitude('');
-  }
+  const clearData = () => {
+    setname("");
+    setlatitude("");
+    setlongitude("");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -68,7 +66,7 @@ export default function StopsScreen() {
           style={{
             fontSize: 30,
             fontWeight: "bold",
-            // fontFamily: "roboto",
+
             color: "white",
           }}
         >
@@ -106,7 +104,6 @@ export default function StopsScreen() {
             >
               <Text style={styles.appButtonText}>Submit</Text>
             </TouchableOpacity>
-            
           </View>
           <View style={{ paddingTop: 20 }}>
             <TouchableOpacity
@@ -115,7 +112,6 @@ export default function StopsScreen() {
             >
               <Text style={styles.appButtonText}>Clear</Text>
             </TouchableOpacity>
-            
           </View>
           {/* </View> */}
 

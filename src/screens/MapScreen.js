@@ -9,6 +9,7 @@ import {
   Dimensions,
   Platform,
   FlatList,
+  Share,
 } from "react-native";
 import MapView, {
   Marker,
@@ -26,6 +27,7 @@ import LoadingScreen from "./LoadingScreen";
 // import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import ShareButton from "./Components/shareButton";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -77,7 +79,29 @@ export default function MapScreen({ route, navigation }) {
     // console.log(loc);
     mapRef.current.animateToRegion(loc);
   };
-
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        title: "location",
+        message:
+          "https://www.google.com/maps/search/?api=1&" +
+          location.coords.latitude +
+          "," +
+          location.coords.longitude,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   useEffect(() => {
     if (route.params != undefined) {
       console.log(route.params);
@@ -159,6 +183,11 @@ export default function MapScreen({ route, navigation }) {
             }}
           />
         )}
+        <ShareButton
+          shareLocation={() => {
+            onShare();
+          }}
+        />
         {bus && origin && initialStop && (
           <TravelingCard from={initialStop.title} to={bus[1].title} />
         )}

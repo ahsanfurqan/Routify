@@ -32,7 +32,7 @@ io.on("connection", () => {
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost"],
+    origin: ["http://localhost:5000", "http://localhost"],
     credentials: true,
   })
 );
@@ -133,5 +133,5 @@ app.post("/logout", (req, res) => {
 });
 
 app.listen(PORT, host, () => {
-  console.log("server is running");
+  console.log("server is running", PORT);
 });
