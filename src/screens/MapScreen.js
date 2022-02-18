@@ -28,6 +28,7 @@ import LoadingScreen from "./LoadingScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import ShareButton from "./Components/shareButton";
+import HistoryButton from "./Components/HistoryButton";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -188,6 +189,7 @@ export default function MapScreen({ route, navigation }) {
             onShare();
           }}
         />
+        <HistoryButton />
         {bus && origin && initialStop && (
           <TravelingCard from={initialStop.title} to={bus[1].title} />
         )}

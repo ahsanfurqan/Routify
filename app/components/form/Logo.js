@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Image } from "react-native";
 
-export default function Logo() {
+export default function Logo(props) {
   return (
     <Image
       source={require("../../assets/routifyf.png")}
-      style={styles.logo}
+      style={props.style ? props.style : styles.logo}
       resizeMode="contain"
     />
   );
@@ -13,6 +13,7 @@ export default function Logo() {
 
 const styles = StyleSheet.create({
   logo: {
+    // aspectRatio:20,
     marginTop: 100,
     width: 250,
     height: 180,

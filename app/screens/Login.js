@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+// import video from '../../assets/routify'
 import {
   View,
   TouchableWithoutFeedback,
@@ -20,6 +21,7 @@ import ErrorMessage from "../components/form/ErrorMessage";
 import AuthContext from "../Context/AuthContext";
 import Colors from "../config/Colors";
 import Logo from "../components/form/Logo";
+import { Video, AVPlaybackStatus } from "expo-av";
 const { width, height } = Dimensions.get("window");
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Required").email().label("Email"),
@@ -27,6 +29,7 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Login({ navigation }) {
+  const video = React.useRef(null);
   const { user, setChange, change } = useContext(AuthContext);
   const navigateToRegister = () => navigation.navigate("Register");
   const navigateToForget = () => navigation.navigate("ForgetPassword");
@@ -50,14 +53,32 @@ export default function Login({ navigation }) {
       setLoading(false);
     }
   };
-
+  const [status, setStatus] = React.useState({});
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Logo />
+        <Video
+          ref={video}
+          source={require("../../assets/routify.mp4")}
+          style={styles.video}
+          shouldPlay
+          isMuted={true}
+          isLooping={true}
+          resizeMode="stretch"
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        />
       </View>
       <View style={styles.footer}>
         <KeyboardAvoidingView behavior={"position"}>
+          <Logo
+            style={{
+              marginTop: 0,
+              width: "100%",
+              height: height * 0.1,
+              marginLeft: 10,
+              marginBottom: 40,
+            }}
+          />
           <Form
             initialValues={{ email: "", password: "" }}
             onSubmit={handleSubmit}
@@ -112,19 +133,33 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#009387",
+    // height: "100%",
+    // width: "100%",
+    // resizeMode:'st'
+    // backgroundColor: "#009387",
   },
   header: {
     flex: 2,
-    justifyContent: "center",
-    // alignItems: "center",
-    left: 10,
+    // justifyContent: "center",
+    backgroundColor: "#fff",
+    // right: width * 0.02,
+    width: "100%",
+
+    // left: 10,
+  },
+  video: {
+    // height: "100%",
+    position: "absolute",
+    top: 40,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   footer: {
     flex: 3,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    // borderTopLeftRadius: 30,
+    // borderTopRightRadius: 30,
     paddingVertical: 50,
     paddingHorizontal: 30,
   },
@@ -164,14 +199,14 @@ const styles = StyleSheet.create({
   },
   card: {
     paddingTop: 20,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     // height: height * 0.25,
     // flex: 1,
     borderRadius: 30,
   },
   appButtonContainer: {
     elevation: 8,
-    backgroundColor: "#009688",
+    // backgroundColor: "#009688",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
