@@ -36,7 +36,7 @@ const otpSchema = new mongoose.Schema({
   otp: String,
   createdOn: { type: Date, default: Date.now },
 });
-const historySchema = new mongoose.Schema({
+const historySchema1 = new mongoose.Schema({
   key: {
     type: Number,
     required: true,
@@ -45,21 +45,20 @@ const historySchema = new mongoose.Schema({
   user_email: {
     type: String,
     required: true,
-    unique: true,
   },
   destination: {
-    type: Number,
+    type: String,
     required: true,
   },
   origin: {
-    type: Number,
+    type: String,
     requird: true,
   },
 });
 
 const userModel = mongoose.model("user", userSchema);
 const otpModel = mongoose.model("otp", otpSchema);
-const historyModel = mongoose.model("history", historySchema);
+const historyModel = mongoose.model("history1", historySchema1);
 
 module.exports = {
   userModel,

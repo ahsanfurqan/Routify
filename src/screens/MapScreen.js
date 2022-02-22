@@ -179,13 +179,14 @@ export default function MapScreen({ route, navigation }) {
       <View style={styles.container}>
         {bus == null && <DestinationButton stops={Stops} />}
 
-        {bus == null && ride_card == null && (
-          <CureentLocationButton
-            cb={() => {
-              centerMap();
-            }}
-          />
-        )}
+        {bus == null ||
+          (ride_card == null && (
+            <CureentLocationButton
+              cb={() => {
+                centerMap();
+              }}
+            />
+          ))}
         <ShareButton
           shareLocation={() => {
             onShare();
@@ -196,7 +197,11 @@ export default function MapScreen({ route, navigation }) {
           <TravelingCard from={initialStop.title} to={bus[1].title} />
         )}
         {morebus && origin && initialStop && (
-          <TravelingCard from={initialStop.title} to={morebus[4]} stop={2} />
+          <TravelingCard
+            from={initialStop.title}
+            to={morebus[2].title}
+            stop={2}
+          />
         )}
         <MapView
           ref={mapRef}

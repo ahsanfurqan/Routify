@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import env from "../../../app/environment/environment";
 import { Card, Icon } from "react-native-elements";
+import axios from "axios";
+
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 // import { TouchableOpacity } from "react-native-gesture-handler";
@@ -15,6 +19,31 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default function TravelingCard(props) {
+  const [user, setUser] = useState("");
+  const saveHistory = async () => {
+    console.log("pressses");
+    try {
+      let res = await axios.get(`${env.baseUrl}/profile`, {
+        withCredentials: true,
+      });
+      setUser(res.data.profile);
+      // console.log(res.data.profile);
+      try {
+        console.log(user.email);
+        let second_res = await axios.post(`${env.baseUrl}/insert/history`, {
+          // withCredentials: true,
+          user_email: user.email,
+          destination: props.to,
+          origin: props.from,
+        });
+        Alert.alert("Success");
+      } catch (err) {
+        console.log("hello", err);
+      }
+    } catch (err) {
+      console.log("err:", err.response.data);
+    }
+  };
   const navigation = useNavigation();
   const stops = props.stop ? props.stop : 1;
   return (
@@ -47,12 +76,25 @@ export default function TravelingCard(props) {
         </Text>
         <View style={styles.textContainer}>
           <Text
-            style={{ color: "green", textAlign: "left", flex: 1, fontSize: 18 }}
+            style={{
+              color: "#000000",
+              textAlign: "left",
+              flex: 1,
+              fontSize: 18,
+              // alignSelf: "center",
+            }}
           >
             {props.from}
           </Text>
+
           <MaterialCommunityIcons
-            name="arrow-left-right-bold"
+            name="bus-double-decker"
+            size={24}
+            color="black"
+            style={{ alignSelf: "center", margin: 10 }}
+          />
+          <MaterialCommunityIcons
+            name="arrow-right-bold"
             color="black"
             size={25}
             style={{ alignSelf: "center" }}
@@ -65,7 +107,7 @@ export default function TravelingCard(props) {
                 fontSize: 18,
                 left: 10,
               },
-              stops == 1 ? { color: "red" } : { color: "orange" },
+              stops == 1 ? { color: "#000000" } : { color: "black" },
             ]}
           >
             {props.to}
@@ -83,7 +125,25 @@ export default function TravelingCard(props) {
             Your stop is {stops} stops ahead
           </Text>
         </View>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#EAEAEA",
+            marginTop: 10,
+            height: height * 0.05,
+            width: width * 0.85,
+            borderRadius: 30,
+            borderColor: "black",
+          }}
+          onPress={() => {
+            saveHistory();
+          }}
+        >
+          <Text style={{ alignSelf: "center", marginTop: 10 }}>Trip Done</Text>
+        </TouchableOpacity>
       </Card>
+      {/* <View style={styles.end}>
+        <TouchableOpacity>style={{ width: 82, height: 23 }}</TouchableOpacity>
+      </View> */}
     </View>
   );
 }
@@ -95,14 +155,14 @@ const styles = StyleSheet.create({
     // position: "absolute",
     // flexDirection: "row",
     width: width - 20,
-    height: height * 0.25,
+    height: height * 0.3,
     // top: 80,
     // left: 5,
     right: width * 0.00001,
     borderRadius: 30,
     borderColor: "black",
     borderWidth: 2,
-    backgroundColor: "white",
+    backgroundColor: "#81E15F",
     // alignItems: "center",
     shadowColor: "#000000",
     // elevation: 7,
@@ -127,6 +187,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     width: width * 0.75,
     flexDirection: "row",
+  },
+  originContainer: {
+    backgroundColor: "#DBDBDB",
+    // paddingTop: 10,
+    width: width * 0.3,
+    height: height * 0.08,
+    // flexDirection: "row",
+  },
+  end: {
+    backgroundColor: "#EAEAEA",
+    // height: "20",
   },
   button: {
     // zIndex: 9,

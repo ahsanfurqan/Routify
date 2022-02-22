@@ -12,7 +12,7 @@
     },
     "updates": {
       "fallbackToCacheTimeout": 0
-    },    
+    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "100techsolutions.routify",
@@ -22,7 +22,7 @@
     "android": {
       "package": "com.techsolutions.routify",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
+        "foregroundImage": "./assets/routifyf.png",
         "backgroundColor": "#FFFFFF"
       },
       "config": {

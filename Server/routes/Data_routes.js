@@ -29,11 +29,8 @@ router.post("/insert/history", async (req, res) => {
     .exec(async (err, doc) => {
       let key = 0;
       // res.status(200).send(JSON.stringify(doc));
-      if (Object.keys(doc) > 0) {
-        key = doc[0].key + 1;
-      } else {
-        key = 1;
-      }
+      key = doc[0].key + 1;
+
       try {
         const new_history = new historyModel({
           key: key,
@@ -44,15 +41,10 @@ router.post("/insert/history", async (req, res) => {
         await new_history.save();
         res.status(200).send(JSON.stringify("Success"));
       } catch (error) {
-        res.status(422).send(JSON.stringify(error));
+        console.log(error);
+        res.status(422).send(error);
       }
     });
-
-  // const history = new history({
-  //   user_email: req.body.email,
-  //   destination: req.body.destination,
-  //   origin: req.body.origin,
-  // });
 });
 
 router.get("/getBusses", async (req, res) => {
@@ -75,11 +67,7 @@ router.post("/insert/bus", async (req, res) => {
     .exec(async (err, doc) => {
       let key = 0;
       // res.status(200).send(JSON.stringify(doc));
-      if (Object.keys(doc) > 0) {
-        key = doc[0].key + 1;
-      } else {
-        key = 1;
-      }
+      key = doc[0].key + 1;
       try {
         const new_bus = new bus({ key, title, number_routes, route_id });
         await new_bus.save();
@@ -101,11 +89,7 @@ router.post("/insert/stop", async (req, res) => {
     .exec(async (err, doc) => {
       let key = 0;
       // res.status(200).send(JSON.stringify(doc));
-      if (Object.keys(doc) > 0) {
-        key = doc[0].key + 1;
-      } else {
-        key = 1;
-      }
+      key = doc[0].key + 1;
       try {
         const user = new stop({ key, title, location });
         await user.save();
