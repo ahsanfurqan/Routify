@@ -6,11 +6,14 @@ import axios from "axios";
 import env from "./app/environment/environment";
 import Main from "./Main";
 // import LoadingScreen from "./src/screens/LoadingScreen";
+import * as SplashScreen from "expo-splash-screen";
 import StopsScreen from "./src/screens/StopsScreen";
 import BusScreen from "./src/screens/BusScreen";
 import { stop } from "./Data/stop";
 
 export default function App() {
+  // SplashScreen.preventAutoHideAsync();
+  // setTimeout(SplashScreen.hideAsync, 5000);
   const [user, setUser] = useState(false);
   const [change, setChange] = useState(false);
   const [forgetEmail, setForgetEmail] = useState("");

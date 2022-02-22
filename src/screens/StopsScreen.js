@@ -28,7 +28,7 @@ export default function StopsScreen() {
     if (name == "" || latitude == "" || longitude == "") {
       Alert.alert("Error", "Fields can't be empty");
     } else {
-      fetch("http://" + host + ":3000/insert/stop", {
+      fetch("http://" + host + ":5000/insert/stop", {
         method: "POST",
         headers: {
           "content-type": "application/json",

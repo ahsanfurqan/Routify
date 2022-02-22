@@ -10,6 +10,7 @@ import {
   Platform,
   FlatList,
   Share,
+  Alert,
 } from "react-native";
 import MapView, {
   Marker,
@@ -85,9 +86,9 @@ export default function MapScreen({ route, navigation }) {
       const result = await Share.share({
         title: "location",
         message:
-          "https://www.google.com/maps/search/?api=1&" +
+          "https://www.google.com/maps/search/?api=1&query=" +
           location.coords.latitude +
-          "," +
+          "%2c" +
           location.coords.longitude,
       });
       if (result.action === Share.sharedAction) {
@@ -140,6 +141,7 @@ export default function MapScreen({ route, navigation }) {
       }
 
       let location = await Location.getCurrentPositionAsync({});
+      // Alert.alert(JSON.parse(location.coords.latitude));
       setLocation(location);
       lat = JSON.parse(location.coords.latitude);
       lon = JSON.parse(location.coords.longitude);
