@@ -1,23 +1,29 @@
 const { number } = require("joi");
+
 const mongoose = require("mongoose");
-const stopSchema = new mongoose.Schema({
+
+const history = new mongoose.Schema({
   key: {
     type: Number,
     required: true,
     unique: true,
   },
-  title: {
+  user_email: {
     type: String,
     required: true,
     unique: true,
   },
-  route_id: {
+  destination: {
     type: Number,
     required: true,
   },
-  number_routes: {
+  origin: {
     type: Number,
-    required: true,
+    requird: true,
   },
 });
-mongoose.model("Bus", stopSchema);
+
+mongoose.model("history", history);
+module.exports = {
+  history,
+};
