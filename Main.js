@@ -22,30 +22,30 @@ export default function Main() {
   const stack = createStackNavigator();
 
   return (
-    <Provider store={store}>
-      {/* <NavigationContainer> */}
-      <stack.Navigator>
-        <stack.Screen
-          name="MapScreen"
-          component={MapScreen}
-          options={{ headerShown: false }}
-        />
-        <stack.Screen
-          name="Where to go?"
-          component={SearchScreen}
-          options={{ headerShown: true }}
-        />
-        <stack.Screen
-          name="BusScreen"
-          component={BusOptionScreen}
-          options={{ headerShown: true }}
-        />
-      </stack.Navigator>
-      {/* <MapScreen /> */}
-      {/* </NavigationContainer> */}
-    </Provider>
+    // <Provider store={store}>
+    //   {/* <NavigationContainer> */}
+    //   <stack.Navigator>
+    //     <stack.Screen
+    //       name="MapScreen"
+    //       component={MapScreen}
+    //       options={{ headerShown: false }}
+    //     />
+    //     <stack.Screen
+    //       name="Where to go?"
+    //       component={SearchScreen}
+    //       options={{ headerShown: true }}
+    //     />
+    //     <stack.Screen
+    //       name="BusScreen"
+    //       component={BusOptionScreen}
+    //       options={{ headerShown: true }}
+    //     />
+    //   </stack.Navigator>
+    //   {/* <MapScreen /> */}
+    //   {/* </NavigationContainer> */}
+    // </Provider>
     // <LoadingScreen />
     // <StopsScreen />
-    // <BusScreen />
+    <BusScreen />
   );
 }

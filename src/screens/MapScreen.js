@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import logo from "../../assets/icon.png";
+import axios from "axios";
+
 import {
   Image,
   ScrollView,
@@ -47,8 +49,8 @@ import {
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY, host } from "@env";
-import { MAP_BOX_TOKEN } from "@env";
 import { Stops } from "../../Data/stop";
+import env from "../../app/environment/environment";
 
 // import Driver from "./Components/Driver";
 // import { Permissions, Location } from "expo";
@@ -56,11 +58,6 @@ import { BottomTabBar } from "react-navigation-tabs";
 import { Button } from "react-native-elements/dist/buttons/Button";
 
 export default function MapScreen({ route, navigation }) {
-  // created to test gps or moving to a specific location in a map
-
-  // getting data from the navigation
-  var stop = [];
-
   const [ride_card, setRide_Card] = useState(null);
   const [bus, setBus] = useState(null);
   const [morebus, setmoreBus] = useState(null);
@@ -68,6 +65,7 @@ export default function MapScreen({ route, navigation }) {
   const [location, setLocation] = useState(null);
   const [loc, setLoc] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [stops, setStops] = useState(null);
 
   const origin = useSelector(selectOrigin);
   // const destination = useSelector(selectDestination);
@@ -80,6 +78,17 @@ export default function MapScreen({ route, navigation }) {
   const centerMap = () => {
     // console.log(loc);
     mapRef.current.animateToRegion(loc);
+  };
+  const getStops = async () => {
+    try {
+      let res = await axios.get(`${env.baseUrl}/getAllStops`, {
+        withCredentials: true,
+      });
+      setStops(res.data);
+      console.log(res.data);
+    } catch (err) {
+      console.log("===", err);
+    }
   };
   const onShare = async () => {
     try {
@@ -133,6 +142,9 @@ export default function MapScreen({ route, navigation }) {
     }
   });
   useEffect(() => {
+    getStops();
+  }, []);
+  useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -177,7 +189,7 @@ export default function MapScreen({ route, navigation }) {
 
     return (
       <View style={styles.container}>
-        {bus == null && <DestinationButton stops={Stops} />}
+        {bus == null && <DestinationButton stops={stops} />}
 
         {bus == null ||
           (ride_card == null && (
@@ -345,7 +357,7 @@ export default function MapScreen({ route, navigation }) {
 
           {bus == null &&
             morebus == null &&
-            Stops.map((val, i) => {
+            stops.map((val, i) => {
               return (
                 <Marker
                   key={val.key}

@@ -8,7 +8,7 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
-import { Stops } from "../../Data/stop";
+// import { stops } from "../../Data/stop";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { getDistance } from "geolib";
@@ -26,17 +26,19 @@ const height = Dimensions.get("window").height;
 export default function SearchScreen({ route, navigation }) {
   // const navigation = useNavigation();
   const [search, setSearch] = useState("");
-  // const Stops=route.params;
+  const [stops, setstops] = useState(route.params);
+
+  // const stops=route.params;
   // console.log(route.param)
-  // const [Stops, setstop] = useState([]);
+  // const [stops, setstop] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
   // dispatch to send data to redux
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setFilteredDataSource(Stops);
-    setMasterDataSource(Stops);
+    setFilteredDataSource(stops);
+    setMasterDataSource(stops);
   }, []);
 
   const searchFilterFunction = (text) => {
@@ -87,12 +89,12 @@ export default function SearchScreen({ route, navigation }) {
   const getItem = (item) => {
     // Function for click on an item
     // dispatch(setDestination(item));
-    // console.log(Stops);
-    const distance = Stops.map((busStop) => {
+    // console.log(stops);
+    const distance = stops.map((busStop) => {
       const coord = busStop.location;
       return { coord, dist: getDistance(origin, coord) };
     });
-    // const dist = getDistance(Stops.location, {
+    // const dist = getDistance(stops.location, {
     //   latitude: origin.latitude,
     //   longitude: origin.longitude,
     // });
@@ -102,13 +104,13 @@ export default function SearchScreen({ route, navigation }) {
     // console.log(distance);
 
     // looping through stops to get the nearest stop data
-    for (var i = 0; i < Stops.length; i++) {
+    for (var i = 0; i < stops.length; i++) {
       if (
-        closest.coord.latitude == Stops[i].location.latitude &&
-        closest.coord.longitude == Stops[i].location.longitude
+        closest.coord.latitude == stops[i].location.latitude &&
+        closest.coord.longitude == stops[i].location.longitude
       ) {
-        dispatch(setInitialStop(Stops[i]));
-        // console.log(Stops[i]);
+        dispatch(setInitialStop(stops[i]));
+        // console.log(stops[i]);
       }
     }
     // dispatch(setInitialStop(closest));
