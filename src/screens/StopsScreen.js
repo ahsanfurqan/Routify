@@ -16,6 +16,7 @@ import {
 import { Card, Icon } from "react-native-elements";
 import { host } from "@env";
 import env from "../../app/environment/environment";
+import Toast from "react-native-toast-message";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -47,9 +48,18 @@ export default function StopsScreen() {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          if (data == "Success") Alert.alert(data, "data inserted");
-          else {
-            Alert.alert("Error", data);
+          if (data == "Success") {
+            Toast.show({
+              type: "success",
+              text1: "Stop Added",
+              text2: "👋",
+            });
+          } else {
+            Toast.show({
+              type: "error",
+              text1: "Stop not added",
+              text2: data,
+            });
           }
         })
         .catch((error) => console.error(error.message));
@@ -62,6 +72,7 @@ export default function StopsScreen() {
   };
   return (
     <View style={styles.container}>
+      <Toast />
       <View style={styles.header}>
         <Text
           style={{
