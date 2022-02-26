@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { Card, Icon } from "react-native-elements";
 import { host } from "@env";
+import env from "../../app/environment/environment";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -23,12 +24,12 @@ export default function StopsScreen() {
   const [latitude, setlatitude] = useState("");
   const [longitude, setlongitude] = useState("");
 
-  const sendData = () => {
+  const sendData = async () => {
     // console.log(host);
     if (name == "" || latitude == "" || longitude == "") {
       Alert.alert("Error", "Fields can't be empty");
     } else {
-      fetch("http://" + host + ":5000/insert/stop", {
+      fetch(env.baseUrl + "/insert/stop", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -119,62 +120,6 @@ export default function StopsScreen() {
         </KeyboardAvoidingView>
       </View>
     </View>
-    // <SafeAreaView style={styles.container}>
-    //   <KeyboardAvoidingView behavior={"position"}>
-    //     <View
-    //       style={{
-    //         paddingTop: height - 600,
-    //         backgroundColor: "#28a745",
-    //         // alignItems: "center",
-    //         // color: "white",
-    //       }}
-    //     >
-    //       <Text
-    //         style={{
-    //           fontSize: 32,
-    //           paddingBottom: 20,
-    //           fontFamily: "sans-serif",
-    //           fontWeight: "bold",
-    //           color: "white",
-    //           left: 10,
-    //         }}
-    //       >
-    //         Add Stop
-    //       </Text>
-    //     </View>
-    //     {/* <View style={{ paddingTop: 20, borderTopStartRadius: 20 }}> */}
-    //     <Card containerStyle={styles.card}>
-    //       {/* <View> */}
-    //       <Text style={styles.label}>Name</Text>
-    //       <TextInput
-    //         value={name}
-    //         onChangeText={(text) => setname(text)}
-    //         style={{ height: 40, margin: 12, borderWidth: 1, padding: 10 }}
-    //       />
-    //       <Text style={styles.label}>Latitude</Text>
-    //       <TextInput
-    //         value={latitude}
-    //         onChangeText={(text) => setlatitude(text)}
-    //         style={{ height: 40, margin: 12, borderWidth: 1, padding: 10 }}
-    //       />
-
-    //       <Text style={styles.label}>Longitude</Text>
-    //       <TextInput
-    //         value={longitude}
-    //         onChangeText={(text) => setlongitude(text)}
-    //         style={{ height: 40, margin: 12, borderWidth: 1, padding: 10 }}
-    //       />
-    //       <TouchableOpacity
-    //         style={styles.appButtonContainer}
-    //         onPress={() => sendData()}
-    //       >
-    //         <Text style={styles.appButtonText}>Submit</Text>
-    //       </TouchableOpacity>
-    //       {/* </View> */}
-    //     </Card>
-    //     {/* </View> */}
-    //   </KeyboardAvoidingView>
-    // </SafeAreaView>
   );
 }
 
