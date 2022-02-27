@@ -49,7 +49,7 @@ import {
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY, host } from "@env";
-import { Stops } from "../../Data/stop";
+// import { Stops } from "../../Data/stop";
 import env from "../../app/environment/environment";
 
 // import Driver from "./Components/Driver";
@@ -66,6 +66,9 @@ export default function MapScreen({ route, navigation }) {
   const [loc, setLoc] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [stops, setStops] = useState(null);
+  const [busses, setBuses] = useState(null);
+  const [history, setHistory] = useState(null);
+  const [user, setUser] = useState("");
 
   const origin = useSelector(selectOrigin);
   // const destination = useSelector(selectDestination);
@@ -79,15 +82,50 @@ export default function MapScreen({ route, navigation }) {
     // console.log(loc);
     mapRef.current.animateToRegion(loc);
   };
-  const getStops = async () => {
+  const histoysrc = () => {
+    navigation.navigate("HistoryScreen", { data: history });
+  };
+
+  const getBuses = async () => {
     try {
-      let res = await axios.get(`${env.baseUrl}/getAllStops`, {
+      let result = await axios.get(`${env.baseUrl}/getBusses`, {
         withCredentials: true,
       });
-      setStops(res.data);
-      console.log(res.data);
+      setBuses(result.data);
     } catch (err) {
-      console.log("===", err);
+      console.log("bus------", err);
+    }
+  };
+  // const getStops = async () => {
+  //   try {
+  //     let res = await axios.get(`${env.baseUrl}/getAllStops`, {
+  //       withCredentials: true,
+  //     });
+  //     setStops(res.data);
+  //     console.log(res.data);
+  //   } catch (err) {
+  //     console.log("===", err);
+  //   }
+  // };
+  const getHistory = async () => {
+    try {
+      let res = await axios.get(`${env.baseUrl}/profile`, {
+        withCredentials: true,
+      });
+      setUser(res.data.profile);
+      // console.log("user----", user.email);
+      try {
+        let result = await axios.post(`${env.baseUrl}/getHistory`, {
+          email: res.data.profile.email,
+        });
+        setHistory(result.data);
+        // console.log("history---", history);
+        // console.log(result);
+      } catch (err) {
+        console.log("===", err);
+      }
+    } catch (err) {
+      console.log("err:", err.response.data);
     }
   };
   const onShare = async () => {
@@ -127,7 +165,7 @@ export default function MapScreen({ route, navigation }) {
         setmoreBus(null);
         setBus(bus);
 
-        // console.log(1);
+        console.log("1---", bus);
         // console.log("hey" + ride_card1);
       } else if (route.params.multipleBus) {
         const { multipleBus } = route.params;
@@ -142,7 +180,10 @@ export default function MapScreen({ route, navigation }) {
     }
   });
   useEffect(() => {
-    getStops();
+    // getStops();
+    getHistory();
+
+    getBuses();
   }, []);
   useEffect(() => {
     (async () => {
@@ -166,6 +207,15 @@ export default function MapScreen({ route, navigation }) {
         longitudeDelta: 0.0421,
       };
       setLoc(dum);
+      try {
+        let res = await axios.get(`${env.baseUrl}/getAllStops`, {
+          withCredentials: true,
+        });
+        setStops(res.data);
+        console.log(res.data);
+      } catch (err) {
+        console.log("===", err);
+      }
     })();
   }, []);
   var lat;
@@ -204,9 +254,13 @@ export default function MapScreen({ route, navigation }) {
             onShare();
           }}
         />
-        <HistoryButton />
+        <HistoryButton
+          history={() => {
+            histoysrc();
+          }}
+        />
         {bus && origin && initialStop && (
-          <TravelingCard from={initialStop.title} to={bus[1].title} />
+          <TravelingCard from={initialStop.title} to={bus[1].title} bus={bus} />
         )}
         {morebus && origin && initialStop && (
           <TravelingCard
@@ -357,6 +411,7 @@ export default function MapScreen({ route, navigation }) {
 
           {bus == null &&
             morebus == null &&
+            stops &&
             stops.map((val, i) => {
               return (
                 <Marker
@@ -420,9 +475,11 @@ export default function MapScreen({ route, navigation }) {
             </Marker>
           )}
         </MapView>
-        {ride_card && <RideOptionCard item={ride_card} />}
+        {ride_card && (
+          <RideOptionCard item={ride_card} stops={stops} busses={busses} />
+        )}
         {/* <View style={styles.mainCard}>
-          <ScrollView
+          <ScrollViewstop
            
             scrollEventThrottle={1}
             showsVerticalScrollIndicator={false}

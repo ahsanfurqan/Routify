@@ -10,6 +10,14 @@ import {
 import env from "../../../app/environment/environment";
 import { Card, Icon } from "react-native-elements";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectDestination,
+  selectInitialStop,
+  setSelectedBus,
+  setDestination,
+} from "../../../slices/navSlice";
+import { getDistance } from "geolib";
 
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +28,12 @@ const height = Dimensions.get("window").height;
 
 export default function TravelingCard(props) {
   const [user, setUser] = useState("");
+  const initialstop = useSelector(selectInitialStop);
+  const destination = props.bus;
+  const fare = getDistance(props.bus[1].location, props.bus[2].location) * 0.01;
+  const navigation = useNavigation();
+
+  // console.log("1=---", destination);
   const saveHistory = async () => {
     console.log("pressses");
     try {
@@ -28,15 +42,20 @@ export default function TravelingCard(props) {
       });
       setUser(res.data.profile);
       // console.log(res.data.profile);
+      console.log("fare-----", fare);
       try {
         console.log(user.email);
         let second_res = await axios.post(`${env.baseUrl}/insert/history`, {
           // withCredentials: true,
           user_email: user.email,
-          destination: props.to,
-          origin: props.from,
+          location: {
+            destination: props.to,
+            origin: props.from,
+          },
+          charges: parseInt(fare),
+          bus_name: props.bus[0].title,
         });
-        Alert.alert("Success");
+        navigation.navigate("MapScreen");
       } catch (err) {
         console.log("hello", err);
       }
@@ -44,7 +63,6 @@ export default function TravelingCard(props) {
       console.log("err:", err.response.data);
     }
   };
-  const navigation = useNavigation();
   const stops = props.stop ? props.stop : 1;
   return (
     <View style={styles.container}>

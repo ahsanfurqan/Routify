@@ -3,7 +3,7 @@ const { userModel } = require("./model/index");
 
 require("./Models/Bus");
 const env = require("./config/env");
-
+const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -11,7 +11,7 @@ const morgan = require("morgan");
 
 const http = require("http");
 const cors = require("cors");
-const { mongoUrl, host, office_host } = require("./Keys");
+const { host, office_host } = require("./Keys");
 const routes = require("./routes/Data_routes");
 // const PORT = 5000;
 var cookieParser = require("cookie-parser");
@@ -20,6 +20,7 @@ var authController = require("./routes/auth-controller");
 const app = express();
 
 var socketIo = require("socket.io");
+dotenv.config();
 const PORT = 5000 || process.env.PORT;
 
 const server = http.createServer(app);
@@ -43,7 +44,8 @@ app.use(routes);
 app.use("/auth", authController);
 
 // const PORT = 5000 || process.env.PORT;
-mongoose.connect(mongoUrl, {
+console.log(process.env.MONGO);
+mongoose.connect(process.env.MONGO, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -132,6 +134,6 @@ app.post("/logout", (req, res) => {
   });
 });
 
-app.listen(PORT, host, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("server is running", PORT);
 });

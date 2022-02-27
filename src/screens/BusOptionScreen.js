@@ -22,8 +22,8 @@ import {
   setDestination,
 } from "../../slices/navSlice";
 // import { Stops } from "../../Data/stop";
-import { Buses } from "../../Data/Buses";
-import { Stops } from "../../Data/stop";
+// import { Buses } from "../../Data/Buses";
+// import { Stops } from "../../Data/stop";
 import { getDistance } from "geolib";
 import { Card, Icon } from "react-native-elements";
 import { object } from "yup";
@@ -37,9 +37,12 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 // const width = Dimensions.get("window").width;
 // const height = Dimensions.get("window").height - 65;
 
-export default function BusOptionScreen({ item }) {
+export default function BusOptionScreen({ item, busses, stops }) {
   const navigation = useNavigation();
-  const [temp, settemp] = useState(true);
+  const [Buses, setBuses] = useState(busses);
+  const [Stops, setStops] = useState(stops);
+  const [fare, setFare] = useState(0);
+
   const destination = item;
   // console.log(props.item);
   // const destination = useSelector(selectDestination);
@@ -51,30 +54,23 @@ export default function BusOptionScreen({ item }) {
 
   // useEffect(() => {
 
-  //   // console.log(destination_busses);
+  // console.log("-----", Buses);
   //   // console.log(origen_busses);
   // });
+
   Buses.map((item, a) => {
+    // console.log("----", destination);
     for (var i = 0; i < item.route.length; i++) {
-      if (item.route[i].stop == destination.key) {
+      if (item.route[i].stop == destination.title) {
+        // console.log(i, "--", item.route[i].stop);
         //destination mojood hai
         destination_busses.push(item);
-      } else if (item.route[i].stop == initialstop.key) {
+      } else if (item.route[i].stop == initialstop.title) {
         //destination mojood hai
         origen_busses.push(item);
       }
-      // if (
-      //   item.route[1].stop == initialstop.key ||
-      //   item.route[2].stop == initialstop.key ||
-      //   item.route[0].stop == initialstop.key
-      // ) {
-      //   if (
-      //     item.route[1].stop == destination.key ||
-      //     item.route[2].stop == destination.key ||
-      //     item.route[0].stop == destination.key
-      //   ) {
 
-      // }
+      // console.log("-----1", orign_busses);
     }
   });
   let latitude = null;
@@ -100,14 +96,16 @@ export default function BusOptionScreen({ item }) {
     // console.log("now");
     // console.log(item);
     for (var i = 0; i < item.route.length; i++) {
-      if (item.route[i].stop == destination.key) {
+      if (item.route[i].stop == destination.title) {
         is_destinationFound = true;
         return (
           <Card containerStyle={styles.cardStyle}>
-            <Text style={styles.busName}>{item.name}</Text>
+            <Text style={styles.busName}>{item.title}</Text>
             <View style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}>
               <Text style={{ color: "green", flex: 1 }}>
-                Bus Fare:{item.fare}Rs
+                Bus Fare:
+                {getDistance(initialstop.location, destination.location) * 0.01}
+                Rs
               </Text>
               <Text style={{ color: "black" }}>
                 {getDistance(initialstop.location, destination.location)}
@@ -143,7 +141,7 @@ export default function BusOptionScreen({ item }) {
                 // alert("Id : " + item.key + " Title : " + item.name);
                 // dispatch(setSelectedBus(item));
                 navigation.navigate("MapScreen", {
-                  bus: [item, destination],
+                  bus: [item, destination, initialstop],
                 });
               }}
             >
@@ -162,11 +160,6 @@ export default function BusOptionScreen({ item }) {
           </Card>
         );
       }
-      // console.log(is_destinationFound);
-      // if (!is_destinationFound) {
-      //   // console.log("here");
-      //   // console.log(item.name);
-      // }
     }
     if (!is_destinationFound) {
       for (var j = 0; j < item.route.length; j++) {
@@ -203,13 +196,6 @@ export default function BusOptionScreen({ item }) {
                     >
                       {initialstop.title}
                     </Text>
-                    {/* <Text style={{ color: "green", flex: 1 }}>
-                      Bus Fare:{item.fare}Rs
-                    </Text>
-                    <Text style={{ color: "black" }}>
-                      {getDistance(initialstop.location, destination.location)}
-                      {"m"}
-                    </Text> */}
                   </View>
                   <MaterialCommunityIcons
                     name="arrow-down"
@@ -280,6 +266,7 @@ export default function BusOptionScreen({ item }) {
                           latitude,
                           destination,
                           longitude,
+                          initialstop,
                           more,
                         ],
                       });
@@ -307,25 +294,12 @@ export default function BusOptionScreen({ item }) {
     }
   };
 
-  //     // if (
-  //     //   item.route[1].stop == initialstop.key ||
-  //     //   item.route[2].stop == initialstop.key ||
-  //     //   item.route[0].stop == initialstop.key
-  //     // ) {
-  //     //   if (
-  //     //     item.route[1].stop == destination.key ||
-  //     //     item.route[2].stop == destination.key ||
-  //     //     item.route[0].stop == destination.key
-  //     //   ) {
-
-  //     // }
-
   return (
     <View style={styles.container}>
       <FlatList
         data={origen_busses}
         renderItem={ItemViewer}
-        keyExtractor={(item) => item.key}
+        keyExtractor={(item) => item.title}
       />
       {/* {console.log(destination_busses)} */}
     </View>

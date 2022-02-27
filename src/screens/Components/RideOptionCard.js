@@ -44,7 +44,11 @@ export default function RideOptionCard(props) {
         <Text style={tw`text-center py-5 text-xl`}>Pick a ride</Text>
       </View>
 
-      <BusOptionScreen item={props.item} />
+      <BusOptionScreen
+        item={props.item}
+        stops={props.stops}
+        busses={props.busses}
+      />
       {/* <ScrollView
         scrollEventThrottle={1}
         showsVerticalScrollIndicator={false}

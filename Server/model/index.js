@@ -36,7 +36,7 @@ const otpSchema = new mongoose.Schema({
   otp: String,
   createdOn: { type: Date, default: Date.now },
 });
-const historySchema1 = new mongoose.Schema({
+const travel_history = new mongoose.Schema({
   key: {
     type: Number,
     required: true,
@@ -46,22 +46,48 @@ const historySchema1 = new mongoose.Schema({
     type: String,
     required: true,
   },
-  destination: {
+  stops: {
+    type: Object,
+    required: true,
+  },
+  fare: {
+    type: Number,
+    required: true,
+  },
+  bus: {
     type: String,
     required: true,
   },
-  origin: {
+  date: {
     type: String,
-    requird: true,
+    required: true,
+  },
+});
+const busSchema = new mongoose.Schema({
+  key: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  title: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  route: {
+    type: Object,
+    required: true,
   },
 });
 
 const userModel = mongoose.model("user", userSchema);
 const otpModel = mongoose.model("otp", otpSchema);
-const historyModel = mongoose.model("history1", historySchema1);
+const historyModel = mongoose.model("travel_history", travel_history);
+const bus = mongoose.model("bus", busSchema);
 
 module.exports = {
   userModel,
   otpModel,
   historyModel,
+  bus,
 };
