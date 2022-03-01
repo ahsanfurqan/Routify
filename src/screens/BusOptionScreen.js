@@ -78,15 +78,17 @@ export default function BusOptionScreen({ item, busses, stops }) {
   let more = null;
   const getStop = (find) => {
     // console.log("find");
-    // console.log(find);
+    // console.log("find---", Stops);
     Stops.map((value, i) => {
-      if (value.key == find) {
+      if (value.title == find) {
         // console.log("ma");
         // console.log(value.title);
         // more.push(value.location);
         more = value.title;
         latitude = value.location.latitude;
         longitude = value.location.longitude;
+        // console.log("asa---", value.title);
+
         return value.title;
       }
     });
@@ -107,10 +109,10 @@ export default function BusOptionScreen({ item, busses, stops }) {
                 {getDistance(initialstop.location, destination.location) * 0.01}
                 Rs
               </Text>
-              <Text style={{ color: "black" }}>
+              {/* <Text style={{ color: "black" }}>
                 {getDistance(initialstop.location, destination.location)}
                 {"m"}
-              </Text>
+              </Text> */}
             </View>
             <View style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}>
               <Text
@@ -123,6 +125,18 @@ export default function BusOptionScreen({ item, busses, stops }) {
               >
                 {initialstop.title}
               </Text>
+              <Icon
+                style={{
+                  padding: 2,
+                  // backgroundColor: "black",
+                  marginTop: 4,
+
+                  // width: 10,
+                }}
+                name="arrowright"
+                color="black"
+                type="antdesign"
+              />
               <Text
                 style={{
                   textAlign: "right",
@@ -168,17 +182,23 @@ export default function BusOptionScreen({ item, busses, stops }) {
           for (var s = 0; s < destination_busses[k].route.length; s++) {
             if (destination_busses[k].route[s].stop == item.route[j].stop) {
               const n = getStop(destination_busses[k].route[s].stop);
-              console.log(n);
+              console.log(item);
               console.log("me");
               return (
                 <Card containerStyle={styles.cardStyle}>
+                  <Text style={{ color: "green", flex: 1 }}>
+                    Bus Fare:
+                    {getDistance(initialstop.location, destination.location) *
+                      0.01}
+                    Rs
+                  </Text>
                   <View
                     style={{ flex: 1, flexDirection: "row", paddingBottom: 10 }}
                   >
                     <Text
                       style={[styles.busName, { textAlign: "left", width: 80 }]}
                     >
-                      {item.name}
+                      {item.title}
                     </Text>
                     <MaterialCommunityIcons
                       name="arrow-left"
@@ -231,7 +251,7 @@ export default function BusOptionScreen({ item, busses, stops }) {
                         flex: 1,
                       }}
                     >
-                      {destination_busses[k].name}
+                      {destination_busses[k].title}
                     </Text>
                   </View>
                   <MaterialCommunityIcons

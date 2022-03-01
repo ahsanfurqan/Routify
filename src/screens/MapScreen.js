@@ -172,6 +172,11 @@ export default function MapScreen({ route, navigation }) {
         setBus(null);
         setRide_Card(null);
         setmoreBus(multipleBus);
+      } else if (route.params.history) {
+        setHistory(history);
+        setBus(null);
+        setRide_Card(null);
+        setmoreBus(null);
       }
     } else {
       setmoreBus(null);

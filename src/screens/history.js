@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import Moment from "moment";
 const { height, width } = Dimensions.get("window");
 const SearchHistory = ({ route, navigation }) => {
@@ -11,34 +11,36 @@ const SearchHistory = ({ route, navigation }) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Your Rides</Text>
       </View>
-      {data.map((val, i) => {
-        // console.log()
-        return (
-          <View style={styles.historyContainer} key={val.date}>
-            <View style={styles.dateAndPrice}>
-              <Text style={styles.dpText}>
-                {Moment(val.date).format("D MMM  h:mm a")},
-              </Text>
-              <Text style={styles.dpText}>PKR {val.fare}</Text>
-            </View>
-            <View style={styles.originAndDestinationInfo}>
-              <View style={styles.timeline}>
-                <View style={styles.from}></View>
-                <View style={styles.line}></View>
-                <View style={styles.to}></View>
-              </View>
-              <View style={styles.originAndDestination}>
-                <Text style={styles.originAndDestinationText}>
-                  {val.stops.origin}
+      <ScrollView>
+        {data.map((val, i) => {
+          // console.log()
+          return (
+            <View style={styles.historyContainer} key={val.date}>
+              <View style={styles.dateAndPrice}>
+                <Text style={styles.dpText}>
+                  {Moment(val.date).format("D MMM  h:mm a")},
                 </Text>
-                <Text style={styles.originAndDestinationText}>
-                  {val.stops.destination}
-                </Text>
+                <Text style={styles.dpText}>PKR {val.fare}</Text>
+              </View>
+              <View style={styles.originAndDestinationInfo}>
+                <View style={styles.timeline}>
+                  <View style={styles.from}></View>
+                  <View style={styles.line}></View>
+                  <View style={styles.to}></View>
+                </View>
+                <View style={styles.originAndDestination}>
+                  <Text style={styles.originAndDestinationText}>
+                    {val.stops.origin}
+                  </Text>
+                  <Text style={styles.originAndDestinationText}>
+                    {val.stops.destination}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        );
-      })}
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };

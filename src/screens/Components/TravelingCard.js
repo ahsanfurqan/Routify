@@ -28,6 +28,8 @@ const height = Dimensions.get("window").height;
 
 export default function TravelingCard(props) {
   const [user, setUser] = useState("");
+  const [history, setHistory] = useState(null);
+
   const initialstop = useSelector(selectInitialStop);
   const destination = props.bus;
   const fare = getDistance(props.bus[1].location, props.bus[2].location) * 0.01;
@@ -55,7 +57,17 @@ export default function TravelingCard(props) {
           charges: parseInt(fare),
           bus_name: props.bus[0].title,
         });
-        navigation.navigate("MapScreen");
+        try {
+          let result = await axios.post(`${env.baseUrl}/getHistory`, {
+            email: res.data.profile.email,
+          });
+          setHistory(result.data);
+          // console.log("history---", history);
+          // console.log(result);
+        } catch (err) {
+          console.log("===", err);
+        }
+        navigation.navigate("MapScreen", history);
       } catch (err) {
         console.log("hello", err);
       }
