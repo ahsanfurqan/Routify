@@ -22,7 +22,7 @@
     "android": {
       "package": "com.techsolutions.routify",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon-adaptive.png",
+        "foregroundImage": "./assets/512.png",
         "backgroundColor": "#FFFFFF"
       },
       "config": {
