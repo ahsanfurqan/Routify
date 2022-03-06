@@ -32,7 +32,14 @@ export default function TravelingCard(props) {
 
   const initialstop = useSelector(selectInitialStop);
   const destination = props.bus;
-  const fare = getDistance(props.bus[1].location, props.bus[2].location) * 0.01;
+  // console.log("check---====", props.bus, "---------");
+  var fare = 0;
+
+  if (props.stop == 2) {
+    fare = getDistance(props.bus[2].location, props.bus[4].location) * 0.01;
+  } else {
+    fare = getDistance(props.bus[1].location, props.bus[2].location) * 0.01;
+  }
   const navigation = useNavigation();
 
   // console.log("1=---", destination);

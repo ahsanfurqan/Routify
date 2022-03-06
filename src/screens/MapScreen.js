@@ -272,6 +272,7 @@ export default function MapScreen({ route, navigation }) {
             from={initialStop.title}
             to={morebus[2].title}
             stop={2}
+            bus={morebus}
           />
         )}
         <MapView
