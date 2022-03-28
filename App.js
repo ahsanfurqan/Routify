@@ -5,6 +5,7 @@ import AuthContext from "./app/Context/AuthContext";
 import axios from "axios";
 import env from "./app/environment/environment";
 import Main from "./Main";
+import AdminPanel from "./src/screens/adminPanel";
 // import LoadingScreen from "./src/screens/LoadingScreen";
 import * as SplashScreen from "expo-splash-screen";
 import StopsScreen from "./src/screens/StopsScreen";
@@ -43,7 +44,13 @@ export default function App() {
       value={{ user, setUser, setChange, change, forgetEmail, setForgetEmail }}
     >
       <NavigationContainer>
-        {!user ? <AuthNavigation /> : <Main />}
+        {!user ? (
+          <AuthNavigation />
+        ) : user.role === "admin" ? (
+          <AdminPanel />
+        ) : (
+          <Main />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
     // <LoadingScreen />

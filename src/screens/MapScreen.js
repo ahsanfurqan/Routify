@@ -38,7 +38,7 @@ const height = Dimensions.get("window").height;
 const CARD_WIDTH = width * 0.8;
 const CARD_HEIGHT = height * 0.3;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
-import { Buses } from "../../Data/Buses";
+// import { Buses } from "../../Data/Buses";
 // import geolib from "geolib";
 import {
   selectDestination,
@@ -54,8 +54,8 @@ import env from "../../app/environment/environment";
 
 // import Driver from "./Components/Driver";
 // import { Permissions, Location } from "expo";
-import { BottomTabBar } from "react-navigation-tabs";
-import { Button } from "react-native-elements/dist/buttons/Button";
+// import { BottomTabBar } from "react-navigation-tabs";
+// import { Button } from "react-native-elements/dist/buttons/Button";
 
 export default function MapScreen({ route, navigation }) {
   const [ride_card, setRide_Card] = useState(null);
