@@ -6,19 +6,20 @@ import {
   FlatList,
   ActivityIndicator,
   Text,
+  SafeAreaView,
 } from "react-native";
 import ViewResponder from "./responder";
 
-const Displaystops = () => {
+const Displaybuses = () => {
   const [busStopsData, setBusStopsData] = useState([]);
   useEffect(() => {
-    fetchStopsFronDB();
+    fetchBussesFronDB();
   }, []);
 
-  const fetchStopsFronDB = async () => {
+  const fetchBussesFronDB = async () => {
     try {
       const getStopsValue = await axios.get(
-        "https://routify-backend.herokuapp.com/getAllstops"
+        "https://routify-backend.herokuapp.com/getBusses"
       );
       setBusStopsData(getStopsValue);
     } catch (error) {
@@ -65,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Displaystops;
+export default Displaybuses;

@@ -22,7 +22,7 @@ const ViewResponder = ({ stopKey, stopName }) => {
   const deleteBuses = () => {
     console.log(">>>>>>", stopKey);
     axios
-      .delete("https://routify-backend.herokuapp.com/delete/stop", {
+      .delete("https://routify-backend.herokuapp.com/delete/bus", {
         key: stopKey,
         headers: token,
       })
@@ -105,7 +105,7 @@ const ViewResponder = ({ stopKey, stopName }) => {
         style={[styles.viewCont, { left: dragValue }]}
         {...panResponder.panHandlers}
       >
-        <Text style={{ color: "#000" }}>{stopKey + " " + stopName}</Text>
+        <Text style={styles.appButtonText}>{stopName}</Text>
       </View>
     </View>
   );
@@ -115,9 +115,23 @@ const styles = StyleSheet.create({
   sliderContainer: {
     position: "relative",
   },
+  appButtonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
   viewCont: {
-    backgroundColor: "#eee",
-    height: 100,
+    backgroundColor: "#009688",
+    height: 50,
     width: "100%",
     alignItems: "center",
     justifyContent: "center",

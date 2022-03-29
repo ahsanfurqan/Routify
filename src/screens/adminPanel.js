@@ -8,7 +8,7 @@ import AdminView from "./AdminView";
 import Displaystops from "./displayStops";
 import BusScreen from "./BusScreen";
 import StopsScreen from "./StopsScreen";
-
+import Displaybuses from "./displayBus";
 export default function AdminPanel() {
   const stack = createStackNavigator();
 
@@ -23,6 +23,11 @@ export default function AdminPanel() {
         <stack.Screen
           name="DisplayStops"
           component={Displaystops}
+          options={{ headerShown: false }}
+        />
+        <stack.Screen
+          name="DisplayBuses"
+          component={Displaybuses}
           options={{ headerShown: false }}
         />
         <stack.Screen
