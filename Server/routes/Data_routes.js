@@ -8,8 +8,9 @@ const stop = mongoose.model("Stops");
 // const history = mongoose.model("History");
 const { historyModel, bus } = require("../model/index");
 
-router.delete("/delete/stop", async (req, res) => {
+router.post("/delete/stop", async (req, res) => {
   // stop.findOne
+  console.log(req.body);
   stop
     .deleteOne({ key: req.body.key })
     .then((result) => {
@@ -19,7 +20,7 @@ router.delete("/delete/stop", async (req, res) => {
       res.status(422).send(JSON.stringify("No data Found"));
     });
 });
-router.delete("/delete/bus", async (req, res) => {
+router.post("/delete/bus", async (req, res) => {
   bus
     .deleteOne({ key: req.body.key })
     .then((result) => {
