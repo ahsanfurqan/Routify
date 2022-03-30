@@ -10,10 +10,7 @@ import {
 import React from "react";
 import axios from "axios";
 import env from "../../app/environment/environment";
-
-import AppText from "../../app/components/text/AppText";
-import { authStyle } from "../../app/config/styles";
-import EventButton from "../../app/components/form/EventButton";
+import { Restart } from "fiction-expo-restart";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -30,7 +27,7 @@ export default function AdminView() {
         withCredentials: true,
       });
       if (res.status == 200) {
-        BackHandler.exitApp();
+        Restart();
       }
     } catch (err) {
       console.log("===", err);

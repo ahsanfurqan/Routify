@@ -49,11 +49,14 @@ import {
   setOrigin,
   selectInitialStop,
   selectSelectedBus,
+  selectUserEmail,
+  setUserEmail,
 } from "../../slices/navSlice";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY, host } from "@env";
 // import { Stops } from "../../Data/stop";
 import env from "../../app/environment/environment";
+import { Restart } from "fiction-expo-restart";
 
 // import Driver from "./Components/Driver";
 // import { Permissions, Location } from "expo";
@@ -86,7 +89,7 @@ export default function MapScreen({ route, navigation }) {
     mapRef.current.animateToRegion(loc);
   };
   const histoysrc = () => {
-    navigation.navigate("HistoryScreen", { data: history });
+    getHistory();
   };
 
   const getBuses = async () => {
@@ -122,6 +125,12 @@ export default function MapScreen({ route, navigation }) {
           email: res.data.profile.email,
         });
         setHistory(result.data);
+        if (result.data) {
+          navigation.navigate("HistoryScreen", {
+            data: result.data,
+            val: true,
+          });
+        }
         // console.log("history---", history);
         // console.log(result);
       } catch (err) {
@@ -138,7 +147,7 @@ export default function MapScreen({ route, navigation }) {
         withCredentials: true,
       });
       if (res.status == 200) {
-        BackHandler.exitApp();
+        Restart();
       }
     } catch (err) {
       console.log("===", err);
@@ -200,9 +209,9 @@ export default function MapScreen({ route, navigation }) {
       setRide_Card(null);
     }
   });
-  useEffect(() => {
+  useEffect(async () => {
     // getStops();
-    getHistory();
+    // getHistory();
 
     getBuses();
   }, []);
@@ -228,6 +237,14 @@ export default function MapScreen({ route, navigation }) {
         longitudeDelta: 0.0421,
       };
       setLoc(dum);
+      try {
+        let res = await axios.get(`${env.baseUrl}/profile`, {
+          withCredentials: true,
+        });
+        setUser(res.data.profile);
+      } catch (err) {
+        console.log("===", err);
+      }
       try {
         let res = await axios.get(`${env.baseUrl}/getAllStops`, {
           withCredentials: true,
@@ -257,6 +274,7 @@ export default function MapScreen({ route, navigation }) {
     lon = JSON.parse(location.coords.longitude);
 
     dispatch(setOrigin(loc));
+    dispatch(setUserEmail(user.email));
 
     return (
       <View style={styles.container}>

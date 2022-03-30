@@ -16,6 +16,7 @@ import {
   selectInitialStop,
   setSelectedBus,
   setDestination,
+  selectUserEmail,
 } from "../../../slices/navSlice";
 import { getDistance } from "geolib";
 
@@ -41,45 +42,39 @@ export default function TravelingCard(props) {
     fare = getDistance(props.bus[1].location, props.bus[2].location) * 0.01;
   }
   const navigation = useNavigation();
+  const user_email = useSelector(selectUserEmail);
 
   // console.log("1=---", destination);
   const saveHistory = async () => {
     console.log("pressses");
+
+    // console.log(res.data.profile);
+    console.log("fare-----", fare);
     try {
-      let res = await axios.get(`${env.baseUrl}/profile`, {
-        withCredentials: true,
+      console.log(user_email);
+      let second_res = await axios.post(`${env.baseUrl}/insert/history`, {
+        // withCredentials: true,
+        user_email: user_email,
+        location: {
+          destination: props.to,
+          origin: props.from,
+        },
+        charges: parseInt(fare),
+        bus_name: props.bus[0].title,
       });
-      setUser(res.data.profile);
-      // console.log(res.data.profile);
-      console.log("fare-----", fare);
       try {
-        console.log(user.email);
-        let second_res = await axios.post(`${env.baseUrl}/insert/history`, {
-          // withCredentials: true,
-          user_email: user.email,
-          location: {
-            destination: props.to,
-            origin: props.from,
-          },
-          charges: parseInt(fare),
-          bus_name: props.bus[0].title,
+        let result = await axios.post(`${env.baseUrl}/getHistory`, {
+          email: user_email,
         });
-        try {
-          let result = await axios.post(`${env.baseUrl}/getHistory`, {
-            email: res.data.profile.email,
-          });
-          setHistory(result.data);
-          // console.log("history---", history);
-          // console.log(result);
-        } catch (err) {
-          console.log("===", err);
-        }
-        navigation.navigate("MapScreen", history);
+        setHistory(result.data);
+        // console.log("history---", history);
+        // console.log(result);
       } catch (err) {
-        console.log("hello", err);
+        console.log("===", err);
       }
+      navigation.navigate("MapScreen", history);
     } catch (err) {
-      console.log("err:", err.response.data);
+      console.log("hello", err);
     }
   };
   const stops = props.stop ? props.stop : 1;

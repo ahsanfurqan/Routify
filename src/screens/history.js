@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import Moment from "moment";
 const { height, width } = Dimensions.get("window");
 const SearchHistory = ({ route, navigation }) => {
-  const { data } = route.params;
+  const { data, val } = route.params;
+
   console.log("data---", data);
   Moment.locale("en");
   return (
