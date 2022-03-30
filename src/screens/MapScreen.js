@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import logo from "../../assets/icon.png";
 import axios from "axios";
 
+import AuthNavigation from "../../app/navigation/auth-navigation/AuthNavigation";
 import {
   Image,
   ScrollView,
@@ -13,6 +14,7 @@ import {
   FlatList,
   Share,
   Alert,
+  BackHandler,
 } from "react-native";
 import MapView, {
   Marker,
@@ -27,6 +29,7 @@ import DestinationButton from "./Components/DestinationButton";
 import TravelingCard from "./Components/TravelingCard";
 import RideOptionCard from "./Components/RideOptionCard";
 import LoadingScreen from "./LoadingScreen";
+import LogoutButton from "./Components/LogoutButton";
 // import Search from "./Components/Search";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -126,6 +129,19 @@ export default function MapScreen({ route, navigation }) {
       }
     } catch (err) {
       console.log("err:", err.response.data);
+    }
+  };
+  const loggingout = async () => {
+    console.log("user---", user);
+    try {
+      let res = await axios.post(`${env.baseUrl}/logout`, {
+        withCredentials: true,
+      });
+      if (res.status == 200) {
+        BackHandler.exitApp();
+      }
+    } catch (err) {
+      console.log("===", err);
     }
   };
   const onShare = async () => {
@@ -244,6 +260,11 @@ export default function MapScreen({ route, navigation }) {
 
     return (
       <View style={styles.container}>
+        <LogoutButton
+          logout={() => {
+            loggingout();
+          }}
+        />
         {bus == null && <DestinationButton stops={stops} />}
 
         {bus == null ||

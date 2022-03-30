@@ -9,12 +9,16 @@ import {
   Pressable,
   Alert,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 let screen_width = Dimensions.get("screen").width;
-const ViewResponder = ({ stopKey, stopName }) => {
+const ViewResponder = ({ stopKey, stopName, api }) => {
+  const navigation = useNavigation();
+
   const [dragValue, setDragValue] = useState(0);
   const [Vals, setVal] = useState(0);
   const [enableBtn, setEnableBtn] = useState("");
@@ -22,11 +26,13 @@ const ViewResponder = ({ stopKey, stopName }) => {
   const deleteBuses = () => {
     console.log(">>>>>>", stopKey);
     axios
-      .delete("https://routify-backend.herokuapp.com/delete/bus", {
+      .post("https://routify-backend.herokuapp.com/delete/" + api + "", {
         key: stopKey,
-        headers: token,
       })
-      .then(() => console.log("deleted"))
+      .then(() => {
+        console.log("deleted");
+        navigation.navigate("AdminView");
+      })
       .catch((e) => console.log("err in deleting", e));
   };
 
@@ -50,16 +56,11 @@ const ViewResponder = ({ stopKey, stopName }) => {
     onPanResponderRelease: () => {
       setDragValue(0);
       if (dragValue > screen_width * 0.5) {
-        Alert.alert("Bro!", "should i delete?", [
+        Alert.alert("Warning!", "You Won't be able to revert this", [
           {
             text: "ok",
             onPress: () => deleteBuses(),
           },
-          { text: "no", onPress: () => setEnableBtn("") },
-        ]);
-      } else if (enableBtn === "edit" && dragValue < -180) {
-        Alert.alert("Bro!", "do you wanna edit?", [
-          { text: "ok", onPress: () => setEnableBtn("") },
           { text: "no", onPress: () => setEnableBtn("") },
         ]);
       }
@@ -69,20 +70,13 @@ const ViewResponder = ({ stopKey, stopName }) => {
   useEffect(() => {
     if (dragValue > 0) {
       setEnableBtn("delete");
-    } else if (dragValue < 0) {
-      setEnableBtn("edit");
     }
   }, [dragValue]);
 
   return (
     <View style={styles.sliderContainer}>
       {dragValue !== 0 && (
-        <Pressable
-          style={[
-            enableBtn === "delete" && styles.deleteBtn,
-            enableBtn === "edit" && styles.editBtn,
-          ]}
-        >
+        <Pressable style={[enableBtn === "delete" && styles.deleteBtn]}>
           {enableBtn === "delete" && (
             <>
               <MaterialCommunityIcons
@@ -91,12 +85,6 @@ const ViewResponder = ({ stopKey, stopName }) => {
                 color={"#fff"}
               />
               <Text>Delete Bus</Text>
-            </>
-          )}
-          {enableBtn === "edit" && (
-            <>
-              <Feather name="edit-2" size={40} color="white" />{" "}
-              <Text>Edit Bus Details</Text>
             </>
           )}
         </Pressable>

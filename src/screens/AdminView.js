@@ -5,8 +5,12 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  BackHandler,
 } from "react-native";
 import React from "react";
+import axios from "axios";
+import env from "../../app/environment/environment";
+
 import AppText from "../../app/components/text/AppText";
 import { authStyle } from "../../app/config/styles";
 import EventButton from "../../app/components/form/EventButton";
@@ -20,6 +24,18 @@ export default function AdminView() {
   const navigateToAddStop = () => navigation.navigate("StopScreen");
   const navigateToDisplayBusses = () => navigation.navigate("DisplayBuses");
   const navigateToDisplayStops = () => navigation.navigate("DisplayStops");
+  const loggingout = async () => {
+    try {
+      let res = await axios.post(`${env.baseUrl}/logout`, {
+        withCredentials: true,
+      });
+      if (res.status == 200) {
+        BackHandler.exitApp();
+      }
+    } catch (err) {
+      console.log("===", err);
+    }
+  };
   const navigation = useNavigation();
 
   return (
@@ -61,6 +77,14 @@ export default function AdminView() {
             onPress={navigateToDisplayStops}
           >
             <Text style={styles.appButtonText}>See Stops</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ paddingTop: 20 }}>
+          <TouchableOpacity
+            style={styles.appButtonContainer}
+            onPress={() => loggingout()}
+          >
+            <Text style={styles.appButtonText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </View>

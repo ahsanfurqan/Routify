@@ -36,7 +36,7 @@ const Displaybuses = () => {
           marginVertical: 10,
         }}
       >
-        <ViewResponder stopKey={item.key} stopName={item.title} />
+        <ViewResponder stopKey={item.key} stopName={item.title} api="bus" />
       </View>
     );
   };
